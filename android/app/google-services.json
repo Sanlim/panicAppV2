@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "654131927210",
+    "firebase_url": "https://panic-project001.firebaseio.com",
+    "project_id": "panic-project001",
+    "storage_bucket": "panic-project001.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:654131927210:android:099a742ff8439002f3d8d3",
+        "android_client_info": {
+          "package_name": "com.panicappv2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "654131927210-el5astsk6e7kfklitv7cl9ooquabtt8a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_exRy76MGZueecDsNi2DgDPJHjc3dWEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "654131927210-el5astsk6e7kfklitv7cl9ooquabtt8a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
