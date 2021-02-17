@@ -49,6 +49,7 @@ const DrugRemindScreen = () => {
         <View style={styles.container}>
             <Text style={{ fontSize: 20, fontWeight: 'bold' }}>รายละเอียด</Text>
 
+
             <View style={styles.pickerContainer}>
                 <Picker
                     selectedValue={med}
@@ -59,9 +60,9 @@ const DrugRemindScreen = () => {
                     <Item label="Sertraline" value="Sertraline" />
                     <Item label="Paroxetine" value="Paroxetine" />
                 </Picker>
-            </View>
+            {/* </View>
 
-            <View style={styles.pickerContainer}>
+            <View style={styles.pickerContainer}> */}
                 <Picker
                     selectedValue={dose}
                     onValueChange={(v) => setDose(v)}
@@ -74,7 +75,16 @@ const DrugRemindScreen = () => {
                 </Picker>
             </View>
 
-            <View style={{ alignItems: 'center' }}>
+
+            <View style={{ 
+                alignItems: 'center',
+                backgroundColor: "#B5EAD7",
+                margin: 15,
+                width: '50%',
+                height: '7%',
+                justifyContent: 'center',
+                borderRadius: 10
+            }}>
                 <Text style={{ fontSize: 24 }}>
                     เวลา {time} น.
                 </Text>
@@ -93,8 +103,8 @@ const DrugRemindScreen = () => {
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <Text style={styles.modalText}>เลือกวันและเวลา</Text>
-                        <DatePicker locale="th-TH" date={date} onDateChange={setDate} mode="time"/>
-                        <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+                        <DatePicker locale="th-TH" date={date} onDateChange={setDate} mode="time" />
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-around', left: '-7.5%' }}>
                             <TouchableHighlight
                                 style={{ ...styles.confirmButton, backgroundColor: '#2196F3' }}
                                 onPress={() => {
@@ -154,7 +164,7 @@ const styles = StyleSheet.create({
         padding: 10,
         width: 150,
         margin: 10,
-        borderRadius: 3,
+        borderRadius: 10,
         marginHorizontal: '60%'
     },
     input: {
@@ -181,14 +191,16 @@ const styles = StyleSheet.create({
     pickerContainer: {
         padding: 10,
         width: '50%',
-        marginLeft: '5%',
-        borderColor: '#fff'
+        marginVertical: 8,
+        borderColor: '#fff',
+        backgroundColor: '#B5EAD7',
+        borderRadius: 10
     },
     centeredView: {
         flex: 1,
         justifyContent: 'center',
         //alignItems: "center",
-        marginTop: 50,
+        //marginTop: 50,
     },
     modalView: {
         margin: 20,
@@ -208,7 +220,7 @@ const styles = StyleSheet.create({
     },
     openButton: {
         backgroundColor: '#F194FF',
-        borderRadius: 20,
+        borderRadius: 10,
         padding: 10,
         width: 200,
         marginHorizontal: '25%',
@@ -216,7 +228,7 @@ const styles = StyleSheet.create({
     },
     confirmButton: {
         backgroundColor: '#F194FF',
-        borderRadius: 20,
+        borderRadius: 15,
         padding: 10,
         width: 100,
         marginHorizontal: '25%',

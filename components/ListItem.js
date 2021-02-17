@@ -20,15 +20,17 @@ const ListItem = ({ item, deleteItem }) => {
 const styles = StyleSheet.create({
     listItem: {
         padding: 15,
-        backgroundColor: "#f8f8f8",
+        backgroundColor: "#FFDAC1",
         borderBottomWidth: 1,
         borderColor: "#eee",
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderRadius: 15,
+        margin: 10
     },
     listItemView: {
         flexDirection: 'column',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
     },
     listItemText: {
         fontSize: 18

@@ -3,10 +3,13 @@ import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-nati
 import { Picker } from '@react-native-community/picker';
 import firestore from '@react-native-firebase/firestore'
 import moment from 'moment'
+import { Slider } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/Feather'
 
 const Item = Picker.Item;
 
 const RecordScreen = ({ navigation }) => {
+    //const [value, setValue] = useState(5)
 
     const usersCollectionRef = firestore().collection('อาการ');
 
@@ -14,18 +17,18 @@ const RecordScreen = ({ navigation }) => {
         { damage: 0, name: '1 ใจเต้นเร็วและรัว' },
         { damage: 0, name: '2 เหงื่อแตก' },
         { damage: 0, name: '3 ตัวสั่น' },
-        { damage: 0, name: '4 อึดอัดหายใจไม่ออก หายใจได้แบบสั้นๆ' },
+        { damage: 0, name: '4 อึดอัดหายใจไม่ออก ' },
         { damage: 0, name: '5 หายใจติดขัดไม่สะดวก' },
-        { damage: 0, name: '6 รู้สึกมึนงง โคลงเคลง วิงเวียนศรีษะเป็นลม' },
+        { damage: 0, name: '6 รู้สึกมึนงง วิงเวียนศรีษะเป็นลม' },
         { damage: 0, name: '7 รู้สึกหนาวๆ ร้อนๆ' },
         { damage: 0, name: '8 ตัวชาหรือเป็นเหน็บ' },
         { damage: 0, name: '9 รู้สึกไม่เป็นตัวของตัวเอง' },
-        { damage: 0, name: '10 กลัวที่จะเสียการควบคุมหรือเสียสติ' },
+        { damage: 0, name: '10 กลัวที่จะเสียสติ' },
         { damage: 0, name: '11 กลัวว่าอาจตายได้' }
     ]
 
     //Damage
-    const [valueDam, setValueDam] = useState(0);
+    //const [valueDam, setValueDam] = useState(0);
     const [arrDam, setArrDam] = useState(chkData)
     const onDamageChange = (index, value) => {
         let newArrDam = [...arrDam]
@@ -33,12 +36,14 @@ const RecordScreen = ({ navigation }) => {
         setArrDam(newArrDam)
     }
 
+    //console.log(arrDam.damage);
+
     const recordSymps = () => {
         usersCollectionRef.doc(moment().format('MMM Do YYYY h:mm:ss a')).set({
             //dateTime: now,
             "อาการ": arrDam
         })
-        console.log(arrDam);
+        //console.log(arrDam);
     }
 
     return (
@@ -50,19 +55,64 @@ const RecordScreen = ({ navigation }) => {
                     <View style={styles.chBox1}>
                         <Text
                             style={{
-                                fontSize: 20,
+                                fontSize: 26,
                                 fontWeight: 'bold',
                                 padding: 10
                             }}
                         >บันทึกอาการ</Text>
 
-                        <View style={styles.checkBoxContainer}>
+                        {/* <View style={styles.checkBoxContainer}>
                             <Text style={styles.text}>อาการที่เกิดขึ้น</Text>
                             <Text>                                         </Text>
                             <Text style={styles.text}>ความรุนแรง</Text>
-                        </View>
+                        </View> */}
 
-                        {/* ลิสต์อาการ */}
+                        {arrDam.map((chk, index) => (
+                            <View
+                                key={index.toString()}
+                                style={{
+                                    flex: 1,
+                                    alignItems: 'stretch',
+                                    justifyContent: 'center',
+                                    width: '90%',
+                                    position: 'relative',
+                                    left: '3%',
+                                    backgroundColor: '#FFDAC1',
+                                    borderRadius: 10,
+                                    margin: 10,
+                                }}>
+                                <View style={{ marginTop: 10, alignItems: 'center' }}>
+                                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{chk.name}</Text>
+                                </View>
+                                <View style={{ width: '90%', left: '5%', position: 'relative' }}>
+                                    <Slider
+                                        value={chk.damage}
+                                        onValueChange={(value) => onDamageChange(index, value)}
+                                        maximumValue={10}
+                                        minimumValue={0}
+                                        step={1}
+                                        trackStyle={{ height: 10 }}
+                                        thumbStyle={{ height: 20, width: 20, backgroundColor: "#000" }}
+                                        minimumTrackTintColor="red"
+                                        maximumTrackTintColor="green"
+                                    />
+                                </View>
+                                <View
+                                    key={index.toString()}
+                                    style={{
+                                        marginBottom: 10,
+                                        alignItems: 'center',
+                                        flexDirection: 'row',
+                                        justifyContent: 'center'
+                                    }}
+                                >
+                                    <Text style={{ fontSize: 20 }}>ความรุนแรง: </Text>
+                                    <Text style={{ fontSize: 24, fontWeight: 'bold' }}>{chk.damage}</Text>
+                                </View>
+                            </View>
+                        ))}
+
+                        {/* ลิสต์อาการ
                         {arrDam.map((chk, index) => (
                             <View key={index.toString()} style={styles.checkBoxContainer}>
                                 <View style={styles.textContainer}>
@@ -88,18 +138,8 @@ const RecordScreen = ({ navigation }) => {
                                     </Picker>
                                 </View>
                             </View>
-                        ))}
+                        ))} */}
 
-                        <TouchableOpacity
-                            activeOpacity={0.6}
-                            onPress={() => navigation.navigate("Report")}
-                        >
-                            <View>
-                                <Text style={{ fontSize: 20, fontWeight: 'bold', textDecorationLine: 'underline' }}>
-                                    แสดงกราฟความสัมพันธ์ของอาการและระดับความรุนแรง
-                                    </Text>
-                            </View>
-                        </TouchableOpacity>
                     </View>
                     <TouchableOpacity
                         activeOpacity={0.6}
@@ -111,8 +151,21 @@ const RecordScreen = ({ navigation }) => {
                             <Text style={{ fontSize: 20, fontWeight: 'bold' }}>บันทึก</Text>
                         </View>
                     </TouchableOpacity>
+
+
                 </View>
+
             </View>
+            <TouchableOpacity
+                activeOpacity={0.6}
+                onPress={() => navigation.navigate("Report")}
+            >
+                <View style={{ alignItems: 'center', width: '75%', position: 'relative', left: '17%', margin: 10 }}>
+                    <Text style={{ fontSize: 20, fontWeight: 'bold', textDecorationLine: 'underline' }}>
+                        แสดงกราฟความสัมพันธ์ของอาการและระดับความรุนแรง
+                                    </Text>
+                </View>
+            </TouchableOpacity>
         </ScrollView>
     );
 }
@@ -126,7 +179,7 @@ const styles = StyleSheet.create({
     },
     chBox1: {
         flex: 1,
-        margin: 5
+        margin: 5,
     },
     chBox2: {
         flex: 1,
