@@ -93,8 +93,8 @@ const RecordScreen = ({ navigation }) => {
                                         step={1}
                                         trackStyle={{ height: 10 }}
                                         thumbStyle={{ height: 20, width: 20, backgroundColor: "#000" }}
-                                        minimumTrackTintColor="red"
-                                        maximumTrackTintColor="green"
+                                        minimumTrackTintColor="#DB3035"
+                                        maximumTrackTintColor="#6EC04E"
                                     />
                                 </View>
                                 <View

@@ -112,8 +112,16 @@ const PanicTestScreen = ({ navigation }) => {
                             {'\t'}{'\t'}โรคแพนิคเป็นอาการที่เกิดขึ้นแบบจู่โจม รู้สึกกลัวหรือตื่นตระหนกอย่างฉับพลันภายในไม่กี่นาที
                             โดยระหว่างที่ท่านมีอาการแพนิค ท่านมีอาการต่างๆเหล่านี้ร่วมด้วยอย่างน้อย 4 อย่างหรือไม่
                         </Text>
-                        {/* ลิสต์อาการ */}
 
+                        <View>
+
+                        </View>
+
+                        <View>
+                            
+                        </View>
+
+                        {/* ลิสต์อาการ */}
                         {arrChk_1.map((chk, index) => (
                             <View key={index.toString()} style={styles.checkBoxContainer}>
                                 <Checkbox
