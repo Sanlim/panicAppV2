@@ -6,8 +6,6 @@ import SignupScreen from '../screens/SignupScreen';
 import SigninScreen from '../screens/SigninScreen';
 import PreviewScreen from '../screens/PreviewScreen';
 import PanicSymtompScreen from '../screens/PanicSymtompScreen';
-import PanicSymtomp1Screen from '../screens/PanicSymtomp1Screen';
-import PanicSymtomp2Screen from '../screens/PanicSymtomp2Screen';
 import PanicTestScreen from '../screens/PanicTestScreen';
 import GeneralUserScreen from '../screens/GeneralUserScreen';
 
@@ -58,7 +56,7 @@ const AuthStack = () => {
                 name="PanicSymtomp"
                 component={PanicSymtompScreen}
                 options={({ navigation }) => ({
-                    title: 'โรคแพนิคอะไร',
+                    title: 'โรคแพนิค',
                     headerTitleAlign: 'center',
                     headerTitleStyle: {
                         fontSize: 22,
@@ -77,62 +75,6 @@ const AuthStack = () => {
                                 backgroundColor="#f9fafd"
                                 color="#333"
                                 onPress={() => navigation.navigate('GeneralUser')}
-                            />
-                        </View>
-                    ),
-                })}
-            />
-            <Stack.Screen
-                name="PanicSymtomp1"
-                component={PanicSymtomp1Screen}
-                options={({ navigation }) => ({
-                    title: 'อาการของโรคแพนิค',
-                    headerTitleAlign: 'center',
-                    headerTitleStyle: {
-                        fontSize: 22,
-                        fontWeight: 'bold'
-                    },
-                    headerStyle: {
-                        backgroundColor: '#f9fafd',
-                        shadowColor: '#f9fafd',
-                        elevation: 0,
-                    },
-                    headerLeft: () => (
-                        <View style={{ marginLeft: 10 }}>
-                            <FontAwesome.Button
-                                name="long-arrow-left"
-                                size={25}
-                                backgroundColor="#f9fafd"
-                                color="#333"
-                                onPress={() => navigation.navigate('PanicSymtomp')}
-                            />
-                        </View>
-                    ),
-                })}
-            />
-            <Stack.Screen
-                name="PanicSymtomp2"
-                component={PanicSymtomp2Screen}
-                options={({ navigation }) => ({
-                    title: 'การป้องกันโรคแพนิค',
-                    headerTitleAlign: 'center',
-                    headerTitleStyle: {
-                        fontSize: 22,
-                        fontWeight: 'bold'
-                    },
-                    headerStyle: {
-                        backgroundColor: '#f9fafd',
-                        shadowColor: '#f9fafd',
-                        elevation: 0,
-                    },
-                    headerLeft: () => (
-                        <View style={{ marginLeft: 10 }}>
-                            <FontAwesome.Button
-                                name="long-arrow-left"
-                                size={25}
-                                backgroundColor="#f9fafd"
-                                color="#333"
-                                onPress={() => navigation.navigate('PanicSymtomp')}
                             />
                         </View>
                     ),

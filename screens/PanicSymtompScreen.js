@@ -1,42 +1,160 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react'
+import { Platform, UIManager } from 'react-native'
+import {
+    View,
+    Text,
+    SafeAreaView,
+    ScrollView,
+    TouchableOpacity,
+    StyleSheet,
+    LayoutAnimation
+} from 'react-native'
 
+const Data = [
+    {
+        isExpandable: false,
+        category_name: 'อาการของโรคแพนิค',
+        subcategory: [
+            {
+                id: 100,
+                val: '\t\tผู้ป่วยโรคแพนิคจะรู้สึกหวาดกลัวหรือตื่นตระหนกอย่างไม่มีสาเหตุ ซึ่งเรียกว่า อาการแพนิค โดยอาการนี้จะเกิดขึ้นกะทันหัน รวมทั้งเกิดขึ้นได้ตลอดเวลา แพนิคเป็นอาการที่รุนแรงกว่าความรู้สึกเครียดทั่วไป มักเกิดขึ้นเป็นเวลา 10-20 นาที บางรายอาจเกิดอาการแพนิคนานเป็นชั่วโมง โดยผู้ป่วยโรคแพนิคจะเกิดอาการ ดังนี้ \n',
+                data: [
+                    '- หัวใจเต้นเร็ว \n',
+                    '- หายใจไม่ออก รู้สึกเหมือนขาดอากาศ\n',
+                    '- หวาดกลัวอย่างรุนแรงจนร่างกายขยับไม่ได้\n',
+                    '- เวียนศีรษะหรือรู้สึกคลื่นไส้\n',
+                    '- เหงื่อออกและมือเท้าสั่น\n',
+                    '- รู้สึกหอบและเจ็บหน้าอก\n',
+                    '- รู้สึกร้อนวูบวาบ หรือหนาวขึ้นมาอย่างกะทันหัน\n',
+                    '- เกิดอาการเหน็บคล้ายเข็มทิ่มที่นิ้วมือหรือเท้า\n',
+                    '- วิตกกังวลหรือหวาดกลัวว่าจะตายรวมทั้งรู้สึกว่าไม่สามารถควบคุมสิ่งต่าง ๆ ในชีวิตได้\n',
+                    '- กังวลว่าจะมีเหตุการณ์อันตรายเกิดขึ้นในอนาคต\n',
+                    '- หวาดกลัวและพยายามหลีกเลี่ยงสถานที่หรือสถานการณ์อันตรายที่ทำให้รู้สึกหวาดกลัวในอดีต',
+                    '\n \n \t \tทั้งนี้ ผู้ที่เกิดอาการแพนิคควรพบแพทย์ทันที เนื่องจากอาการแพนิคถือว่าเป็นปัญหาสุขภาพที่ร้ายแรง ผู้ที่เกิดอาการดังกล่าวจะจัดการ ตัวเองได้ยาก ทั้งนี้ หากไม่ได้รับการรักษาให้หาย อาการแพนิคจะแย่ลงเรื่อย ๆ'
+                ]
+            }
+        ]
+    },
+    {
+        isExpandable: false,
+        category_name: 'การป้องกันโรคแพนิค',
+        subcategory: [
+            {
+                id: 200,
+                val: '\t\tโรคแพนิคเป็นปัญหาสุขภาพทางจิตที่ป้องกันให้เกิดขึ้นได้ยาก อย่างไรก็ตามผู้ที่เกิดอาการแพนิคหรือป่วยเป็นโรคนี้สามารถดูแลตัวเองเพื่อไม่ให ้เกิดความเครียดมากขึ้น และเกิดอาการแพนิค น้อยลงได้ ดังนี้\n',
+                data: [
+                    '- งดหรือลดดื่มเครืองดื่มแอลกอฮอล์และเครื่องดื่มที่ผสมคาเฟอีน เช่น กาแฟ ชา โคล่า หรือช็อกโกแลต\n',
+                    '- ปรึกษาแพทย์หรือเภสัชกรก่อนรับประทานยาหรือสมุนไพรรักษาอาการป่วยต่าง ๆ เนื่องจากผลิตภัณฑ์ดังกล่าวอาจมีส่วนประกอบที่กระตุ้นให้เกิดอาการแพนิคได้\n',
+                    '- ออกกำลังกายอย่างสม่ำเสมอ รวมทั้งรับประทานอาหารที่มีประโยชน์ให้ครบถ้วน\n',
+                    '- นอนหลับพักผ่อนให้เพียงพอ เพื่อลดอาการ ง่วงเซื่องซึมระหว่างวัน\n',
+                    '- เข้ารับการรักษาจากแพทย์อย่างต่อเนื่อง รวมทั้งฝึกรับมือกับความเครียด เช่น ฝึกหายใจลึก ๆ หรือเล่นโยคะ เพื่อให้รู้สึก ผ่อนคลายขึ้น\n',
+                    '- ฝึกคิดหรือมองโลกในแง่บวก ลองนึกถึง สถานที่หรือเหตุการณ์ที่ทำให้จิตใจสงบหรือผ่อนคลายและเพ่งความสนใจไปที่ความคิดดังกล่าว วิธีนี้จะช่วยลดความฟุ้งซ่านและอาการวิตกกังวลต่าง ๆ ของผู้ป่วยรวมทั้งช่วยปรับความคิดของ ผู้ป่วยที่มีต่อตนเองและสิ่งรอบข้างให้ดีขึ้น\n',
+                    '- ควรยอมรับว่าตัวเองรับมือกับอาการแพนิคได้ยาก เนื่องจากการกดดันตัวเองและพยายามระงับอาการแพนิคนั้นจะทำให้รู้สึกแย่กว่าเดิม ทั้งนี้ ควรทำความเข้าใจว่าอาการแพนิคไม่ได้ ร้ายแรงถึงชีวิต แต่เป็นอาการที่สามารถเกิดขึ้น และหายไปได้\n',
+                    '- เผชิญหน้ากับความวิตกกังวลที่เกิดขึ้น โดยลองหาสาเหตุที่ทำให้เกิดอาการดังกล่าว\n',
+                    '- เมื่อเกิดอาการแพนิคขึ้นมา ควรพยายาม ตั้งสติ พุ่งความสนใจไปยังสิ่งที่ทำให้รู้สึก ผ่อนคลายรวมทั้งหายใจให้ช้าลง โดยนับหนึ่งถึง สามเมื่อหายใจเข้าหรือออกแต่ละครั้ง เนื่องจาก การหายใจเร็วจะทำให้อาการแพนิคกำเริบมากขึ้น'
+                ]
+            }
+        ]
+    }
+]
 
+const ExpandableComponent = ({ item, onClickFunction }) => {
+    const [layoutHeight, setLayoutHeight] = useState(0)
+
+    useEffect(() => {
+        if (item.isExpandable) {
+            setLayoutHeight(null)
+        } else {
+            setLayoutHeight(0)
+        }
+    }, [item.isExpandable])
+
+    return (
+        <View>
+            <TouchableOpacity
+                style={styles.item}
+                onPress={onClickFunction}
+            >
+                <Text style={styles.itemText}>
+                    {item.category_name}
+                </Text>
+            </TouchableOpacity>
+            <View
+                style={{
+                    height: layoutHeight,
+                    overflow: 'hidden'
+                }}
+            >
+                {
+                    item.subcategory.map((item, key) => (
+                        <View
+                            key={key}
+                            style={styles.content}
+                        >
+                            <Text style={styles.text}>
+                                {item.val}{'\n'}
+                                {item.data}
+                            </Text>
+                            <View stylt={styles.separator} />
+                        </View>
+                    ))
+                }
+            </View>
+        </View>
+    )
+}
 
 const PanicSymtompScreen = ({ navigation }) => {
+
+    const [multiSelect, setMultiSelect] = useState(true)
+    const [listDataSource, setListDataSource] = useState(Data)
+
+    if (Platform.OS === 'android') {
+        UIManager.setLayoutAnimationEnabledExperimental(true)
+    }
+
+    const updateLayout = (index) => {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+        const array = [...listDataSource];
+        array[index]['isExpandable'] = !array[index]['isExpandable'];
+        setListDataSource(array);
+    }
+
     return (
-        <ScrollView>
-            <View style={styles.container}>
-                <View style={styles.box} >
-                    <View style={styles.inner} >
-                        <Text style={styles.text} >
 
-                            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>โรคแพนิค</Text> {'\n'}
-
-                            {'\n'}{'\t'}{'\t'}ภาวะตื่นตระหนกต่อสิ่งใดสิ่งหนึ่งโดยไม่มีเหตุผลหรือหาสาเหตุไม่ได้ ซึ่งโรคนี้แตกต่างจากอาการหวาดกลัวหรือกังวลทั่วไป เนื่องจากผู้ป่วยจะเกิดอาการแพนิค (Panic Attacks) หรือหวาดกลัวอย่างรุนแรงทั้งที่ตัวเองไม่ได้เผชิญหน้าหรือตกอยู่ในสถานการณ์อันตราย อาการแพนิคเกิดขึ้นได้ตลอดเวลา ส่งผลให้ผู้ป่วยโรคแพนิครู้สึกกลัวและละอาย เนื่องจากไม่สามารถควบคุมตัวเองหรือดำเนินชีวิตประจำวันได้ตามปกติ{'\n'}{'\n'}
-
-                            <TouchableOpacity
-                                activeOpacity={0.6}
-                                onPress={() => navigation.navigate("PanicSymtomp1")}
-                            >
-                                <View>
-                                    <Text style={{ fontSize: 20, fontWeight: 'bold',textDecorationLine: 'underline' }}>
-                                        อาการของโรคแพนิค
-                                    </Text>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                activeOpacity={0.6}
-                                onPress={() => navigation.navigate("PanicSymtomp2")}
-                            >
-                                <View>
-                                    <Text style={{ fontSize: 20, fontWeight: 'bold',textDecorationLine: 'underline' }}>
-                                        การป้องกันโรคแพนิค
-                                    </Text>
-                                </View>
-                            </TouchableOpacity>
+        <SafeAreaView style={{ flex: 1 }}>
+            <ScrollView>
+                <View style={styles.container}>
+                    <View style={styles.header}>
+                        <Text
+                            style={{
+                                fontSize: 20,
+                                fontWeight: 'bold',
+                                marginBottom: 10
+                            }}
+                        >โรคแพนิคคืออะไร</Text>
+                        <Text
+                            style={{
+                                fontSize: 18,
+                                letterSpacing: 0.5
+                            }}
+                        >
+                            {'\t'}{'\t'}ภาวะตื่นตระหนกต่อสิ่งใดสิ่งหนึ่งโดยไม่มีเหตุผลหรือหาสาเหตุไม่ได้ ซึ่งโรคนี้แตกต่างจากอาการหวาดกลัวหรือกังวลทั่วไป เนื่องจากผู้ป่วยจะเกิดอาการแพนิค (Panic Attacks) หรือหวาดกลัวอย่างรุนแรงทั้งที่ตัวเองไม่ได้เผชิญหน้าหรือตกอยู่ในสถานการณ์อันตราย อาการแพนิคเกิดขึ้นได้ตลอดเวลา ส่งผลให้ผู้ป่วยโรคแพนิครู้สึกกลัวและละอาย เนื่องจากไม่สามารถควบคุมตัวเองหรือดำเนินชีวิตประจำวันได้ตามปกติ
                         </Text>
                     </View>
+
+                    {
+                        listDataSource.map((item, key) => (
+                            <ExpandableComponent
+                                key={item.category_name}
+                                item={item}
+                                onClickFunction={() => {
+                                    updateLayout(key)
+                                }}
+                            />
+                        ))
+                    }
+
                     <TouchableOpacity
                         activeOpacity={0.6}
                         onPress={() => navigation.navigate("GeneralUser")}
@@ -48,35 +166,58 @@ const PanicSymtompScreen = ({ navigation }) => {
                             }}
                             >
                                 กลับ
-                            </Text>
+                             </Text>
                         </View>
                     </TouchableOpacity>
                 </View>
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </SafeAreaView>
+
     );
 }
 
 const styles = StyleSheet.create({
+
     container: {
+        flex: 1
+    },
+    header: {
+        padding: 15,
+    },
+    titleText: {
         flex: 1,
-        width: '100%',
-        height: '85%',
+        fontSize: 22,
+        fontWeight: 'bold'
+    },
+    headerButton: {
+        textAlign: 'center',
+        justifyContent: 'center',
+        fontSize: 18
+    },
+    item: {
+        backgroundColor: '#BEE2BD',
+        padding: 20,
+        borderRadius: 7.2,
+        margin: 10
+    },
+    itemText: {
+        fontSize: 18,
+        fontWeight: 'bold'
+    },
+    content: {
+        paddingLeft: 10,
+        paddingRight: 10,
+        backgroundColor: '#fff'
+    },
+    text: {
+        fontSize: 18,
         padding: 10,
-        flexDirection: 'column',
-        flexWrap: 'wrap',
-        backgroundColor: '#f9fafd'
+        letterSpacing: 0.5
     },
-    box: {
-        width: '100%',
-        height: '100%',
-        padding: 5,
-    },
-    inner: {
-        flex: 1,
-        //backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center'
+    separator: {
+        height: 0.5,
+        backgroundColor: '#c8c8c8',
+        width: '100%'
     },
     button: {
         alignItems: 'center',
@@ -86,11 +227,6 @@ const styles = StyleSheet.create({
         margin: 10,
         borderRadius: 3,
         marginHorizontal: '70%'
-    },
-    text: {
-        fontSize: 16,
-        lineHeight: 27,
-        letterSpacing: 1
     }
 });
 
