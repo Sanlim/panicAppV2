@@ -1,45 +1,39 @@
-import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View, Alert } from 'react-native';
-import { Checkbox } from 'react-native-paper';
+import React, { useState, useEffect } from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Overlay } from 'react-native-elements';
-import { set } from 'react-native-reanimated';
 
-const PanicTestScreen = ({ navigation }) => {
+const PanicTestScreen = () => {
 
     const [visible, setVisible] = useState(false);
     const [res, setRes] = useState();
-
 
     const chkData_1 = [
         { name: '1 ใจเต้นเร็วและรัว', value: false },
         { name: '2 เหงื่อแตก', value: false },
         { name: '3 ตัวสั่น', value: false },
-        { name: '4 อึดอัดหายใจไม่ออก หายใจได้แบบสั้นๆ', value: false },
+        { name: '4 อึดอัดหายใจไม่ออก ', value: false },
         { name: '5 หายใจติดขัดไม่สะดวก', value: false },
-        { name: '6 รู้สึกมึนงง โคลงเคลง วิงเวียนศรีษะเป็นลม', value: false },
+        { name: '6 รู้สึกมึนงง วิงเวียนศรีษะ', value: false },
         { name: '7 รู้สึกหนาวๆ ร้อนๆ', value: false },
         { name: '8 ตัวชาหรือเป็นเหน็บ', value: false },
         { name: '9 รู้สึกไม่เป็นตัวของตัวเอง', value: false },
-        { name: '10 กลัวที่จะเสียการควบคุมหรือเสียสติ', value: false },
+        { name: '10 กลัวที่จะเสียสติ', value: false },
         { name: '11 กลัวว่าอาจตายได้', value: false }
     ]
 
     const chkData_2 = [
         {
-            name: 'ยังคงรู้สึกวิตกกังวลเกี่ยวกับอาการแพนิคที่เกิดขึ้นไปแล้วหรือกังวลถึงผลที่เกิดขึ้นตามมา เช่นการเสียการควบคุมตนเอง อาการเสียสติ อาการหัวใจวาย'
-            , value: false
+            name: 'ยังคงรู้สึกวิตกกังวลเกี่ยวกับอาการแพนิคที่เกิดขึ้นไปแล้วหรือกังวลถึงผลที่เกิดขึ้นตามมา เช่นการเสียการควบคุมตนเอง อาการเสียสติ อาการหัวใจวาย', value: false
         },
         {
-            name: 'มีพฤติกรรมที่เปลี่ยนไปอย่างเห็นได้ชัด เช่น หลีกเลี่ยงสถานการณ์ที่จะทำให้เกิดอาการแพนิคไม่ออกกำลังกายเลี่ยงสถานการณ์ที่ไม่คุ้นเคย เป็นต้น',
-            value: false
+            name: 'มีพฤติกรรมที่เปลี่ยนไปอย่างเห็นได้ชัด เช่น หลีกเลี่ยงสถานการณ์ที่จะทำให้เกิดอาการแพนิคไม่ออกกำลังกายเลี่ยงสถานการณ์ที่ไม่คุ้นเคย เป็นต้น', value: false
         }
     ]
-
     const [chkTrueCount, setChkTrueCount] = useState(0)
     const [chkTrueCount_2, setChkTrueCount_2] = useState(0)
 
     const [arrChk_1, setArrChk_1] = useState(chkData_1)
-    const onChkBoxChange = (index) => {
+    const onChkBoxChange_1 = (index) => {
         let newArrChk = [...arrChk_1]
         newArrChk[index].value = !newArrChk[index].value;
         setArrChk_1(newArrChk)
@@ -56,12 +50,40 @@ const PanicTestScreen = ({ navigation }) => {
         setChkTrueCount_2(chkTrue.length)
     }
 
-    console.log(chkTrueCount, chkTrueCount_2);
+    const selectionHandler_chk_1 = (ind) => {
+        let arr = arrChk_1.map((item, index) => {
+            if (ind === index)
+                item.isSelected = !item.isSelected;
+            return { ...item }
+        })
+        setArrChk_1(arr)
+    }
+
+    const selectionHandler_chk_2 = (ind) => {
+        let arr = arrChk_2.map((item, index) => {
+            if (ind === index)
+                item.isSelected = !item.isSelected;
+            return { ...item }
+        })
+        setArrChk_2(arr)
+    }
+
+    const twoFunc_chk_1 = (index) => {
+        selectionHandler_chk_1(index);
+        onChkBoxChange_1(index);
+    }
+
+    const twoFunc_chk_2 = (index) => {
+        selectionHandler_chk_2(index);
+        onChkBoxChange_2(index);
+    }
 
     const toggleOverlay = () => {
         setVisible(!visible)
         setArrChk_1(chkData_1)
         setArrChk_2(chkData_2)
+        setChkTrueCount(0)
+        setChkTrueCount_2(0)
     };
 
     const result = () => {
@@ -95,85 +117,84 @@ const PanicTestScreen = ({ navigation }) => {
                 <View style={styles.chBox} >
 
                     <View style={styles.chBox1}>
-                        <Text
-                            style={{
-                                fontSize: 20,
-                                fontWeight: 'bold',
-                                padding: 10
-                            }}
-                        >ส่วนที่ 1</Text>
-                        <Text
-                            style={{
-                                fontSize: 17,
-                                padding: 5,
-                                margin: 5
-                            }}
-                        >
+                        <Text style={{ fontSize: 20, fontWeight: 'bold', padding: 10 }}>
+                            ส่วนที่ 1
+                        </Text>
+                        <Text style={{ fontSize: 17, padding: 5, margin: 5 }}>
                             {'\t'}{'\t'}โรคแพนิคเป็นอาการที่เกิดขึ้นแบบจู่โจม รู้สึกกลัวหรือตื่นตระหนกอย่างฉับพลันภายในไม่กี่นาที
                             โดยระหว่างที่ท่านมีอาการแพนิค ท่านมีอาการต่างๆเหล่านี้ร่วมด้วยอย่างน้อย 4 อย่างหรือไม่
                         </Text>
 
-                        <View>
-
+                        <View style={{ backgroundColor: '#706B62', margin: 5, borderRadius: 15 }}>
+                            {arrChk_1.map((chk, index) => (
+                                <View key={index.toString()} style={{ margin: 10, }}>
+                                    <TouchableOpacity
+                                        activeOpacity={0.6}
+                                        onPress={() => twoFunc_chk_1(index)}
+                                    >
+                                        <View style={{
+                                            backgroundColor: '#E0AC69',
+                                            width: '100%',
+                                            height: 40,
+                                            alignItems: 'center',
+                                            justifyContent: 'space-between',
+                                            borderRadius: 20,
+                                            padding: '2%',
+                                            flexDirection: 'row'
+                                        }}>
+                                            <Text style={{ fontSize: 18, color: 'black' }}>{chk.name}</Text>
+                                            {
+                                                chk.isSelected
+                                                    ? <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'blue' }}>เลือก</Text>
+                                                    : <Text style={{ fontSize: 18, color: 'black' }}>ไม่เลือก</Text>
+                                            }
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+                            ))}
                         </View>
-
-                        <View>
-                            
-                        </View>
-
-                        {/* ลิสต์อาการ */}
-                        {arrChk_1.map((chk, index) => (
-                            <View key={index.toString()} style={styles.checkBoxContainer}>
-                                <Checkbox
-                                    status={chk.value ? 'checked' : 'unchecked'}
-                                    onPress={() => {
-                                        onChkBoxChange(index)
-                                    }}
-                                />
-                                <Text style={styles.text}>{chk.name}</Text>
-                            </View>
-                        ))}
-
                     </View>
 
-                    <View style={styles.chBox2}>
-                        <Text
-                            style={{
-                                fontSize: 20,
-                                fontWeight: 'bold',
-                                padding: 10
-                            }}
-                        >ส่วนที่ 2</Text>
-                        <Text
-                            style={{
-                                fontSize: 17,
-                                //fontWeight: 'bold',
-                                padding: 5,
-                                margin: 5
-                            }}
-                        >
+                    <View style={styles.chBox1}>
+                        <Text style={{ fontSize: 20, fontWeight: 'bold', padding: 10 }}>
+                            ส่วนที่ 2
+                        </Text>
+                        <Text style={{ fontSize: 17, padding: 5, margin: 5 }}>
                             {'\t'}{'\t'}เมื่อท่านมีอาการแพนิคท่านเคยมีอาการตามข้อด้านล่างนี้
                             ไม่ว่าจะข้อใดข้อหนึ่งหรือทั้งสองข้อเป็นระยะเวลา 1 เดือนหรือมากกว่าบ้างไหม
                         </Text>
-
-                        {arrChk_2.map((chk, index) => (
-                            <View key={index.toString()} style={styles.checkBoxContainer2}>
-                                <Checkbox
-                                    status={chk.value ? 'checked' : 'unchecked'}
-                                    onPress={() => {
-                                        onChkBoxChange_2(index)
-                                    }}
-                                />
-                                <Text style={styles.text}>{chk.name}</Text>
-                            </View>
-                        ))}
-
+                        <View style={{ backgroundColor: '#706B62', margin: 5, borderRadius: 15 }}>
+                            {arrChk_2.map((chk, index) => (
+                                <View key={index.toString()} style={{ margin: 10, }}>
+                                    <TouchableOpacity
+                                        activeOpacity={0.6}
+                                        onPress={() => twoFunc_chk_2(index)}
+                                    >
+                                        <View style={{
+                                            backgroundColor: '#E0AC69',
+                                            width: '100%',
+                                            height: 150,
+                                            alignItems: 'center',
+                                            justifyContent: 'space-between',
+                                            borderRadius: 20,
+                                            padding: '2%',
+                                        }}>
+                                            <Text style={{ fontSize: 18, color: 'black' }}>{chk.name}</Text>
+                                            {
+                                                chk.isSelected
+                                                    ? <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'blue' }}>เลือก</Text>
+                                                    : <Text style={{ fontSize: 18, color: 'black' }}>ไม่เลือก</Text>
+                                            }
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+                            ))}
+                        </View>
                     </View>
 
                     <TouchableOpacity
                         activeOpacity={0.6}
                         onPress={() => twoFunc()}
-
                     >
                         <View style={styles.button} >
                             <Text style={{ fontSize: 20, fontWeight: 'bold' }}>ประเมินผล</Text>
