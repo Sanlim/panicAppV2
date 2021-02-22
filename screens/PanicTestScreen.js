@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Overlay } from 'react-native-elements';
+import Icons from 'react-native-vector-icons/dist/MaterialIcons'
 
 const PanicTestScreen = () => {
 
@@ -125,7 +126,7 @@ const PanicTestScreen = () => {
                             โดยระหว่างที่ท่านมีอาการแพนิค ท่านมีอาการต่างๆเหล่านี้ร่วมด้วยอย่างน้อย 4 อย่างหรือไม่
                         </Text>
 
-                        <View style={{ backgroundColor: '#706B62', margin: 5, borderRadius: 15 }}>
+                        <View style={{ backgroundColor: '#B5985A', margin: 5, borderRadius: 15 }}>
                             {arrChk_1.map((chk, index) => (
                                 <View key={index.toString()} style={{ margin: 10, }}>
                                     <TouchableOpacity
@@ -133,20 +134,22 @@ const PanicTestScreen = () => {
                                         onPress={() => twoFunc_chk_1(index)}
                                     >
                                         <View style={{
-                                            backgroundColor: '#E0AC69',
+                                            backgroundColor: '#FFF0F3',
                                             width: '100%',
-                                            height: 40,
+                                            height: 55,
                                             alignItems: 'center',
                                             justifyContent: 'space-between',
                                             borderRadius: 20,
                                             padding: '2%',
                                             flexDirection: 'row'
                                         }}>
-                                            <Text style={{ fontSize: 18, color: 'black' }}>{chk.name}</Text>
+                                            <Text style={{ fontSize: 20, color: 'black' }}>{chk.name}</Text>
                                             {
                                                 chk.isSelected
-                                                    ? <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'blue' }}>เลือก</Text>
-                                                    : <Text style={{ fontSize: 18, color: 'black' }}>ไม่เลือก</Text>
+                                                    //เลือก
+                                                    ? <Icons name="radio-button-checked" color="green" size={30} />
+                                                    //ไม่เลือก
+                                                    : <Icons name="radio-button-unchecked" color="red" size={30} />
                                             }
                                         </View>
                                     </TouchableOpacity>
@@ -163,7 +166,7 @@ const PanicTestScreen = () => {
                             {'\t'}{'\t'}เมื่อท่านมีอาการแพนิคท่านเคยมีอาการตามข้อด้านล่างนี้
                             ไม่ว่าจะข้อใดข้อหนึ่งหรือทั้งสองข้อเป็นระยะเวลา 1 เดือนหรือมากกว่าบ้างไหม
                         </Text>
-                        <View style={{ backgroundColor: '#706B62', margin: 5, borderRadius: 15 }}>
+                        <View style={{ backgroundColor: '#B5985A', margin: 5, borderRadius: 15 }}>
                             {arrChk_2.map((chk, index) => (
                                 <View key={index.toString()} style={{ margin: 10, }}>
                                     <TouchableOpacity
@@ -171,7 +174,7 @@ const PanicTestScreen = () => {
                                         onPress={() => twoFunc_chk_2(index)}
                                     >
                                         <View style={{
-                                            backgroundColor: '#E0AC69',
+                                            backgroundColor: '#FFF0F3',
                                             width: '100%',
                                             height: 150,
                                             alignItems: 'center',
@@ -182,8 +185,10 @@ const PanicTestScreen = () => {
                                             <Text style={{ fontSize: 18, color: 'black' }}>{chk.name}</Text>
                                             {
                                                 chk.isSelected
-                                                    ? <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'blue' }}>เลือก</Text>
-                                                    : <Text style={{ fontSize: 18, color: 'black' }}>ไม่เลือก</Text>
+                                                    //เลือก
+                                                    ? <Icons name="radio-button-checked" size={30} color="green" />
+                                                    //ไม่เลือก
+                                                    : <Icons name="radio-button-unchecked" size={30} color="red" />
                                             }
                                         </View>
                                     </TouchableOpacity>
@@ -216,6 +221,7 @@ const PanicTestScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#fff'
     },
     chBox: {
         flex: 1,
@@ -249,6 +255,7 @@ const styles = StyleSheet.create({
         padding: 10,
         width: 150,
         margin: 10,
+        marginBottom: 30,
         borderRadius: 3,
         marginHorizontal: '60%'
     },
