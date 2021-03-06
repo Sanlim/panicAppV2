@@ -3,16 +3,40 @@ import { StyleSheet, Text, Alert, TouchableOpacity, View, Modal, FlatList, Touch
 import { windowHeight, windowWidth } from '../utils/Dimensions';
 import ListItem from '../components/ListItem';
 import uuid from 'uuid-random';
-import { Picker } from '@react-native-community/picker';
 import DatePicker from 'react-native-date-picker';
+import Icons from 'react-native-vector-icons/dist/MaterialIcons'
+import AntDesign from 'react-native-vector-icons/dist/AntDesign'
+import { Overlay } from 'react-native-elements';
+import { TextInput } from 'react-native-paper';
 
-const Item = Picker.Item;
 
 const DrugRemindScreen = () => {
     const [med, setMed] = useState('');
     const [dose, setDose] = useState('0');
     const [modalVisible, setModalVisible] = useState(false);
     const [date, setDate] = useState(new Date());
+    const [visible, setVisible] = useState(false);
+
+    const [name, setName] = useState('');
+
+    const medicine = [
+        { name: 'Fluoxetine', value: false },
+        { name: 'Sertraline', value: false },
+        { name: 'Paroxetine', value: false },
+    ]
+
+    const [arrChk_1, setArrChk_1] = useState(medicine)
+    const onChkBoxChange_1 = (index) => {
+        let newArrChk = [...arrChk_1]
+        newArrChk[index].value = !newArrChk[index].value;
+        setArrChk_1(newArrChk)
+    }
+
+    const [arrMed, setArrMed] = useState(medicine);
+    const addMed = (med) => {
+        let newArrMed = [...arrMed];
+
+    }
 
     //rebuild time string
     let hours = date.getHours();
@@ -35,7 +59,7 @@ const DrugRemindScreen = () => {
     const addItem = (med, dose, time) => {
         if (!(med && dose && time)) {
             Alert.alert('Error', 'กรุณาใส่ข้อมูล', [
-                { text: "OK", onPress: () => console.log("OK Pressed") }
+                { text: "OK"}
             ],
                 { cancelable: true });
         } else {
@@ -45,38 +69,114 @@ const DrugRemindScreen = () => {
         }
     }
 
+    const toggleOverlay = () => {
+        setVisible(!visible)
+    };
+
+    const selectionHandler_chk_1 = (ind) => {
+        let arr = arrChk_1.map((item, index) => {
+            if (ind === index)
+                item.isSelected = !item.isSelected;
+            setArrChk_1(item)
+        })
+    }
+
+    const twoFunc_chk_1 = (index) => {
+        selectionHandler_chk_1(index);
+        onChkBoxChange_1(index);
+    }
+
     return (
         <View style={styles.container}>
             <Text style={{ fontSize: 20, fontWeight: 'bold' }}>รายละเอียด</Text>
 
-
-            <View style={styles.pickerContainer}>
-                <Picker
-                    selectedValue={med}
-                    onValueChange={(v) => setMed(v)}
-                    mode="dropdown"
-                >
-                    <Item label="Fluoxetine" value="Fluoxetine" />
-                    <Item label="Sertraline" value="Sertraline" />
-                    <Item label="Paroxetine" value="Paroxetine" />
-                </Picker>
-            {/* </View>
-
-            <View style={styles.pickerContainer}> */}
-                <Picker
-                    selectedValue={dose}
-                    onValueChange={(v) => setDose(v)}
-                    mode="dropdown"
-                >
-                    <Item label="1" value="1" />
-                    <Item label="2" value="2" />
-                    <Item label="3" value="3" />
-                    <Item label="4" value="4" />
-                </Picker>
+            <View style={{ justifyContent: 'center', marginVertical: 10, alignItems: 'center', backgroundColor: '#' }}>
+                {
+                    arrMed.map((med, index) => (
+                        <TouchableOpacity
+                            key={index.toString()}
+                            style={{
+                                backgroundColor: '#E0BBE4',
+                                margin: 7,
+                                padding: 10,
+                                borderRadius: 5,
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                width: 250,
+                                height: 50
+                            }}
+                            onPress={() => twoFunc_chk_1(index)}
+                        >
+                            <Text style={{ fontSize: 22 }}>
+                                {med.name}
+                            </Text>
+                            {
+                                med.isSelected
+                                    //เลือก
+                                    ? <Icons name="radio-button-checked" size={28} color="green" />
+                                    //ไม่เลือก
+                                    : <Icons name="radio-button-unchecked" size={28} color="red" />
+                            }
+                        </TouchableOpacity>
+                    ))
+                }
             </View>
 
+            <TouchableOpacity
+                style={{
+                    backgroundColor: "#81C43F",
+                    alignItems: 'center',
+                    padding: 10,
+                    width: '28%',
+                    borderRadius: 7,
+                }}
+                onPress={() => toggleOverlay()}
+            >
+                <Text style={{ fontSize: 22, marginBottom: 10, fontWeight: 'bold' }}>เพิ่มยา</Text>
+                <AntDesign name="pluscircleo" size={28} />
+            </TouchableOpacity>
 
-            <View style={{ 
+            <Overlay
+                isVisible={visible}
+                onBackdropPress={toggleOverlay}
+                overlayStyle={{ width: '95%', height: '40%', justifyContent: 'center', borderRadius: 10 }}
+            >
+                <TextInput
+                    label="ชื่อยา"
+                    value={name}
+                    onChangeText={name => setName(name)}
+                    style={{ fontSize: 22 }}
+                />
+                <View style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
+                    alignItems: 'center',
+                    marginTop: 10
+                }}>
+                    <TouchableOpacity
+                        style={{
+                            backgroundColor: 'blue',
+                            padding: 7,
+                            borderRadius: 7
+                        }}
+                        onPress={() => addMed(name) }
+                    >
+                        <Text style={{ fontSize: 20, color: '#fff' }}>ตกลง</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={{
+                            backgroundColor: 'red',
+                            padding: 7,
+                            borderRadius: 7
+                        }}
+                    >
+                        <Text style={{ fontSize: 20, color: '#fff' }}>ยกเลิก</Text>
+                    </TouchableOpacity>
+                </View>
+            </Overlay>
+
+            <View style={{
                 alignItems: 'center',
                 backgroundColor: "#B5EAD7",
                 margin: 15,
@@ -95,7 +195,6 @@ const DrugRemindScreen = () => {
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
-                    //Alert.alert('Modal has been closed.');
                     setModalVisible(!modalVisible);
                 }}
             //onDismiss={}
@@ -148,7 +247,7 @@ const DrugRemindScreen = () => {
                 )}
             />
 
-        </View>
+        </View >
     );
 };
 

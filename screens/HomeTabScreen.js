@@ -73,7 +73,7 @@ const HomeTabScreen = ({ navigation }) => {
         <View style={styles.inner}>
           <TouchableOpacity
             activeOpacity={0.6}
-            onPress={() => navigation.navigate('Summary')}
+            onPress={() => navigation.navigate('Report')}
           >
             <Text style={{ fontSize: 20, fontWeight: 'bold' }}>สรุปอาการ</Text>
             <View style={styles.iconButton} >

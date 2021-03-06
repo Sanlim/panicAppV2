@@ -9,7 +9,7 @@ const PanicTestScreen = () => {
     const [res, setRes] = useState();
 
     const chkData_1 = [
-        { name: '1 ใจเต้นเร็วและรัว', value: false },
+        { name: '1 ใจเต้นรัวและเร็ว', value: false },
         { name: '2 เหงื่อแตก', value: false },
         { name: '3 ตัวสั่น', value: false },
         { name: '4 อึดอัดหายใจไม่ออก ', value: false },
@@ -18,8 +18,8 @@ const PanicTestScreen = () => {
         { name: '7 รู้สึกหนาวๆ ร้อนๆ', value: false },
         { name: '8 ตัวชาหรือเป็นเหน็บ', value: false },
         { name: '9 รู้สึกไม่เป็นตัวของตัวเอง', value: false },
-        { name: '10 กลัวที่จะเสียสติ', value: false },
-        { name: '11 กลัวว่าอาจตายได้', value: false }
+        { name: '10 กลัวที่จะเสียสติหรือเป็นบ้า', value: false },
+        { name: '11 กลัวว่าตนเองจะตาย', value: false }
     ]
 
     const chkData_2 = [

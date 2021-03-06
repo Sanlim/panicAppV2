@@ -61,12 +61,6 @@ const RecordScreen = ({ navigation }) => {
                             }}
                         >บันทึกอาการ</Text>
 
-                        {/* <View style={styles.checkBoxContainer}>
-                            <Text style={styles.text}>อาการที่เกิดขึ้น</Text>
-                            <Text>                                         </Text>
-                            <Text style={styles.text}>ความรุนแรง</Text>
-                        </View> */}
-
                         {arrDam.map((chk, index) => (
                             <View
                                 key={index.toString()}
@@ -111,34 +105,6 @@ const RecordScreen = ({ navigation }) => {
                                 </View>
                             </View>
                         ))}
-
-                        {/* ลิสต์อาการ
-                        {arrDam.map((chk, index) => (
-                            <View key={index.toString()} style={styles.checkBoxContainer}>
-                                <View style={styles.textContainer}>
-                                    <Text style={styles.text}>{chk.name}</Text>
-                                </View>
-                                <View style={styles.pickerContainer} >
-                                    <Picker
-                                        selectedValue={valueDam}
-                                        onValueChange={(v) => onDamageChange(index, v)}
-                                        mode="dropdown"
-                                    >
-                                        <Item label="0" value={0} />
-                                        <Item label="1" value={1} />
-                                        <Item label="2" value={2} />
-                                        <Item label="3" value={3} />
-                                        <Item label="4" value={4} />
-                                        <Item label="5" value={5} />
-                                        <Item label="6" value={6} />
-                                        <Item label="7" value={7} />
-                                        <Item label="8" value={8} />
-                                        <Item label="9" value={9} />
-                                        <Item label="10" value={10} />
-                                    </Picker>
-                                </View>
-                            </View>
-                        ))} */}
 
                     </View>
                     <TouchableOpacity
