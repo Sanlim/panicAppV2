@@ -22,7 +22,8 @@ const DrugRemindScreen = () => {
     const medicine = [
         { name: 'Fluoxetine', value: false },
         { name: 'Sertraline', value: false },
-        { name: 'Paroxetine', value: false },
+        { name: 'Imipramine', value: false },
+        { name: 'Clorazepate', value: false },
     ]
 
     const [arrChk_1, setArrChk_1] = useState(medicine)

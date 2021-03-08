@@ -2,20 +2,19 @@ import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
 import { StyleSheet, Text, View, Dimensions, TouchableOpacity } from 'react-native';
 import { LineChart } from "react-native-chart-kit";
-import { set } from 'react-native-reanimated';
 
 const data = [
-    { symtomp: "1", level: 5 },
-    { symtomp: "2", level: 7 },
-    { symtomp: "3", level: 2 },
-    { symtomp: "4", level: 3 },
-    { symtomp: "5", level: 9 },
-    { symtomp: "6", level: 0 },
-    { symtomp: "7", level: 1 },
-    { symtomp: "8", level: 8 },
-    { symtomp: "9", level: 6 },
-    { symtomp: "10", level: 4 },
-    { symtomp: "11", level: 4 }
+    { symtomp: 1, level: 5 },
+    { symtomp: 2, level: 7 },
+    { symtomp: 3, level: 2 },
+    { symtomp: 4, level: 3 },
+    { symtomp: 5, level: 9 },
+    { symtomp: 6, level: 0 },
+    { symtomp: 7, level: 1 },
+    { symtomp: 8, level: 8 },
+    { symtomp: 9, level: 6 },
+    { symtomp: 10, level: 4 },
+    { symtomp: 11, level: 4 }
 ];
 
 const chartConfig = {
@@ -47,10 +46,20 @@ const Daily = () => {
 
     const [period, setPeriod] = useState(day)
     const [dataPeriod, setDataPeriod] = useState(dataDay)
+    const [dayPeriod, setDayPeriod] = useState(true);
+    const [nightPeriod, setNightPeriod] = useState()
 
-    const selectPeriod = (pr, dpr) => {
+    const selectPeriod = (pr, dpr, num) => {
         setPeriod(pr)
         setDataPeriod(dpr)
+        if (num === 1) {
+            setDayPeriod(true)
+            setNightPeriod(false)
+        }
+        else if (num === 2) {
+            setNightPeriod(true)
+            setDayPeriod(false)
+        }
     }
 
     return (
@@ -63,8 +72,6 @@ const Daily = () => {
                 }}
                 width={Dimensions.get("window").width / 1.15} // from react-native
                 height={220}
-                // yAxisLabel="$"
-                // yAxisSuffix="k"
                 yAxisInterval={1} // optional, defaults to 1
                 chartConfig={{
                     backgroundColor: "#e26a00",
@@ -95,10 +102,10 @@ const Daily = () => {
             >
 
                 <TouchableOpacity
-                    onPress={() => selectPeriod(day, dataDay)}
+                    onPress={() => selectPeriod(day, dataDay, 1)}
                     activeOpacity={0.6}
                     style={{
-                        backgroundColor: '#fff',
+                        backgroundColor: dayPeriod ? 'lightblue' : '#fff',
                         padding: 5,
                         borderRadius: 7,
                         borderColor: '#000',
@@ -117,19 +124,22 @@ const Daily = () => {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={() => selectPeriod(night, dataNight)}
+                    onPress={() => selectPeriod(night, dataNight, 2)}
                     activeOpacity={0.6}
                     style={{
-                        backgroundColor: 'navy',
+                        backgroundColor: nightPeriod ? 'lightblue' : '#fff',
                         padding: 5,
                         borderRadius: 7,
-                        borderColor: '#fff',
+                        borderColor: '#000',
                         borderWidth: 1.5,
                         marginLeft: 7
                     }}
                 >
                     <Text
-                        style={{ fontSize: 20, color: '#fff' }}
+                        style={{
+                            fontSize: 20,
+                            color: 'navy'
+                        }}
                     >
                         กลางคืน
                     </Text>
@@ -261,33 +271,43 @@ const Monthly = () => {
 }
 
 const ReportScreen = ({ navigation }) => {
-    const [timeChart, setTimeChart] = useState();
+    const chkData = [
+        { damage: 0, name: '1 ใจเต้นเร็วและรัว' },
+        { damage: 0, name: '2 เหงื่อแตก' },
+        { damage: 0, name: '3 ตัวสั่น' },
+        { damage: 0, name: '4 อึดอัดหายใจไม่ออก ' },
+        { damage: 0, name: '5 หายใจติดขัดไม่สะดวก' },
+        { damage: 0, name: '6 รู้สึกมึนงง วิงเวียนศรีษะเป็นลม' },
+        { damage: 0, name: '7 รู้สึกหนาวๆ ร้อนๆ' },
+        { damage: 0, name: '8 ตัวชาหรือเป็นเหน็บ' },
+        { damage: 0, name: '9 รู้สึกไม่เป็นตัวของตัวเอง' },
+        { damage: 0, name: '10 กลัวที่จะเสียสติ' },
+        { damage: 0, name: '11 กลัวว่าอาจตายได้' }
+    ]
 
-    const [isSelectedDay, setIsSelectedDay] = useState()
+    const [timeChart, setTimeChart] = useState(true);
+
+    const [isSelectedDay, setIsSelectedDay] = useState(true)
     const [isSelectedWeek, setIsSelectedWeek] = useState()
+
+    const [arrSyms, setArrSym] = useState(chkData)
 
     const timeSelected = (int) => {
         if (int === 0) {
-            setTimeChart(false)
+            setTimeChart(true)
             setIsSelectedDay(true)
             setIsSelectedWeek(false)
-            //console.log('day: ', isSelectedDay);
         }
         else if (int === 1) {
-            setTimeChart(true)
+            setTimeChart(false)
             setIsSelectedDay(false)
             setIsSelectedWeek(true)
-            //console.log('week: ', isSelectedWeek);
         }
     }
 
     return (
         <ScrollView style={{ marginTop: 20 }}>
             <View style={styles.container}>
-                {/* <Text style={{ fontSize: 18, fontWeight: 'bold' }}>
-                    แกน x: รายชื่ออาการที่เกิด{'\n'}
-                    แกน y: ความรุนแรงแต่ละอาการ
-                </Text> */}
 
                 <View
                     style={{
@@ -302,7 +322,7 @@ const ReportScreen = ({ navigation }) => {
                     >
                         <View
                             style={{
-                                backgroundColor: '#eee',
+                                //backgroundColor: '#eee',
                                 width: 110,
                                 height: 40,
                                 //margin: 5,
@@ -334,7 +354,7 @@ const ReportScreen = ({ navigation }) => {
                     >
                         <View
                             style={{
-                                backgroundColor: '#eee',
+                                //backgroundColor: '#eee',
                                 width: 110,
                                 height: 40,
                                 //margin: 5,
@@ -388,19 +408,104 @@ const ReportScreen = ({ navigation }) => {
 
                 </View>
 
+                <ScrollView
+                    style={{
+                        backgroundColor: '#B5985A',
+                        //margin: 5,
+                        borderRadius: 7,
+                        //flexDirection: 'row'
+                        borderWidth: 2,
+                        elevation: 0,
+                        marginTop: 15
+                    }}
+                    horizontal={true}
+                >
+                    {arrSyms.map((chk, index) => (
+                        <View
+                            key={index.toString()}
+                            style={{
+                                marginHorizontal: 7,
+                                marginVertical: 7,
+                                elevation: 1
+                            }}
+                        >
+                            <TouchableOpacity
+                                activeOpacity={0.6}
+                            >
+                                <View style={{
+                                    backgroundColor: '#FFF0F3',
+                                    alignItems: 'center',
+                                    borderRadius: 10,
+                                    padding: 7,
+                                    flexDirection: 'row',
+                                    elevation: 2
+                                }}>
+                                    <Text style={{ fontSize: 20, color: 'black' }}>{chk.name}</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    ))}
+                </ScrollView>
+
+
+                <ScrollView
+                    horizontal={true}
+                    style={{
+                        flexDirection: 'row',
+                    }}
+                >
+                    {
+                        arrSyms.map((sym, index) => {
+                            <TouchableOpacity
+                                key={index.toString()}
+                                style={{
+                                    //width: 50,
+                                    //height: 20,
+                                    backgroundColor: 'white',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    padding: 5,
+                                    borderRadius: 7
+                                }}
+                            >
+                                <Text
+                                    style={{
+                                        fontSize: 20
+                                    }}
+                                >
+                                    {sym.name}
+                                </Text>
+                            </TouchableOpacity>
+                        })
+                    }
+                </ScrollView>
+
                 {
                     timeChart
-                        ? <Weekly />
-                        : <Daily />
+                        ? <Daily />
+                        : <Weekly />
                 }
 
                 <TouchableOpacity
                     activeOpacity={0.6}
                     onPress={() => navigation.navigate("Home")}
+                    style={{
+                        //backgroundColor: '#a6e4d0',
+                        ...styles.btnColor,
+                        padding: 5,
+                        marginTop: 15,
+                        borderRadius: 7,
+                    }}
                 >
-                    <View style={styles.button} >
-                        <Text style={{ fontSize: 20, fontWeight: 'bold', textDecorationLine: 'underline' }}>กลับหน้าแรก</Text>
-                    </View>
+                    <Text
+                        style={{
+                            fontSize: 20,
+                            fontWeight: 'bold',
+                            //textDecorationLine: 'underline'
+                        }}
+                    >
+                        กลับหน้าแรก
+                        </Text>
                 </TouchableOpacity>
             </View>
         </ScrollView>
@@ -417,6 +522,9 @@ const styles = StyleSheet.create({
         margin: 15,
         padding: 15
     },
+    btnColor: {
+        backgroundColor: '#a6e4d0'
+    }
 
 });
 
