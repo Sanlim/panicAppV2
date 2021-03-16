@@ -4,7 +4,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 
-const EditProfile = ({ navigation }) => {
+const EditProfile = ({ navigation, route }) => {
+    const { birthDate } = route.params;
 
     return (
         <SafeAreaView style={styles.container}>
