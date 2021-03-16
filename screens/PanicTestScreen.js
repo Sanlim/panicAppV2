@@ -9,7 +9,7 @@ const PanicTestScreen = () => {
     const [res, setRes] = useState();
 
     const chkData_1 = [
-        { name: '1 ใจเต้นรัวและเร็ว', value: false },
+        { name: '1 หัวใจเต้นรัวและเร็ว', value: false },
         { name: '2 เหงื่อแตก', value: false },
         { name: '3 ตัวสั่น', value: false },
         { name: '4 อึดอัดหายใจไม่ออก ', value: false },

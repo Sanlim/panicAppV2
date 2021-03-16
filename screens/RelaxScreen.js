@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { ActivityIndicator } from 'react-native';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
-
 import WebView from 'react-native-webview';
 
 const RelaxScreen = () => {
+  const [visible, setVisible] = useState(false);
+
+  const ActivityIndicatorElecment = () => {
+    return (
+      <View style={styles.activityIndicatorStyle}>
+        <ActivityIndicator  color="grey" />
+      </View>
+    )
+  }
 
   return (
     <ScrollView>
@@ -14,7 +23,10 @@ const RelaxScreen = () => {
         </View>
 
         <View style={styles.video}>
-          <WebView source={{ uri: 'https://www.youtube.com/embed/vXZ5l7G6T2I' }} />
+          <WebView
+            source={{ uri: 'https://www.youtube.com/embed/vXZ5l7G6T2I' }}
+
+          />
           <Text style={styles.text} numberOfLines={1}>
             Use this Video to Stop a Panic Attack
           </Text>

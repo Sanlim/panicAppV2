@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Picker } from '@react-native-community/picker';
 import firestore from '@react-native-firebase/firestore'
 import moment from 'moment'
 import { Slider } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Feather'
+import { useFocusEffect } from '@react-navigation/native';
 
 const Item = Picker.Item;
 
@@ -45,6 +46,12 @@ const RecordScreen = ({ navigation }) => {
         })
         //console.log(arrDam);
     }
+
+    useFocusEffect(
+        React.useCallback(() => {
+          return () => setArrDam(chkData)
+        }, [])
+    );
 
     return (
         <ScrollView>

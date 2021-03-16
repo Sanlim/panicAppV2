@@ -3,45 +3,20 @@ import { ScrollView } from 'react-native';
 import { StyleSheet, Text, View, Dimensions, TouchableOpacity } from 'react-native';
 import { LineChart } from "react-native-chart-kit";
 
-const data = [
-    { symtomp: 1, level: 5 },
-    { symtomp: 2, level: 7 },
-    { symtomp: 3, level: 2 },
-    { symtomp: 4, level: 3 },
-    { symtomp: 5, level: 9 },
-    { symtomp: 6, level: 0 },
-    { symtomp: 7, level: 1 },
-    { symtomp: 8, level: 8 },
-    { symtomp: 9, level: 6 },
-    { symtomp: 10, level: 4 },
-    { symtomp: 11, level: 4 }
-];
-
-const chartConfig = {
-    backgroundGradientFrom: "#1E2923",
-    backgroundGradientFromOpacity: 0,
-    backgroundGradientTo: "#08130D",
-    backgroundGradientToOpacity: 0.5,
-    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-    strokeWidth: 2, // optional, default 3
-    barPercentage: 0.5,
-    useShadowColorFromDataset: false // optional
-};
-
 const Daily = () => {
 
     const day = [
         '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17'
     ];
     const dataDay = [
-        0, 0, 0, 0, 3, 0, 2, 3, 4, 0, 0, 0
+        0, 0, 0, 0, 0, 0, 2, 0, 4, 0, 0, 0
     ];
 
     const night = [
         '18', '19', '20', '21', '22', '23', '00', '01', '02', '03', '04', '05',
     ];
     const dataNight = [
-        1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ];
 
     const [period, setPeriod] = useState(day)
@@ -147,12 +122,12 @@ const Daily = () => {
 
             </View>
 
-            <View style={{ flex: 1, width: 300, height: 300, alignItems: 'center' }}>
-                <Text style={{ fontSize: 20, fontWeight: 'bold', marginTop: 10 }}>ความถี่</Text>
+            <View style={{ alignItems: 'center', marginVertical: 10 }}>
+                <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>ความถี่</Text>
                 <View
-                    style={{ width: '100%', height: '90%', backgroundColor: 'lightgreen', borderRadius: 10 }}
+                    style={{ backgroundColor: '#E6F7F1', borderRadius: 10, justifyContent: 'center' }}
                 >
-                    <Text style={{ textAlign: 'left', fontSize: 18, marginTop: 10, marginLeft: 10 }}>ใน 1 วัน</Text>
+                    <Text style={{ textAlign: 'left', fontSize: 18, padding: 15 }}>ใน 1 วัน มีอาการ 3 ครั้ง</Text>
                 </View>
             </View>
         </View>
@@ -204,12 +179,12 @@ const Weekly = () => {
                     borderRadius: 20
                 }}
             />
-            <View style={{ flex: 1, width: 300, height: 300, alignItems: 'center' }}>
-                <Text style={{ fontSize: 20, fontWeight: 'bold', marginTop: 10 }}>ความถี่</Text>
+            <View style={{ alignItems: 'center' }}>
+                <Text style={{ fontSize: 20, fontWeight: 'bold', marginVertical: 10 }}>ความถี่</Text>
                 <View
-                    style={{ width: '100%', height: '90%', backgroundColor: 'lightgreen', borderRadius: 10 }}
+                    style={{ backgroundColor: '#E6F7F1', borderRadius: 10 }}
                 >
-                    <Text style={{ textAlign: 'left', fontSize: 18, marginTop: 10, marginLeft: 10 }}>ใน 1 สัปดาห์</Text>
+                    <Text style={{ textAlign: 'left', fontSize: 18, padding: 8 }}>ใน 1 สัปดาห์ มีอาการ 10 ครั้ง </Text>
                 </View>
             </View>
         </View>
@@ -271,18 +246,82 @@ const Monthly = () => {
 }
 
 const ReportScreen = ({ navigation }) => {
+
+    const checkSwitch = (label) => {
+        switch (label) {
+            case '1':
+                //ONE();
+                console.log("one is select");
+                break;
+
+            case '2':
+                //TWO();
+                console.log("two is select");
+                break;
+
+            case '3':
+                //THREE();
+                console.log("three is select");
+                break;
+
+            case '4':
+                //FOUR();
+                console.log("four is select");
+                break;
+
+            case '5':
+                //FIVE();
+                console.log("five is select");
+                break;
+
+            case '6':
+                //SIX();
+                console.log("six is select");
+                break;
+
+            case '7':
+                //SEVEN();
+                console.log("seven is select");
+                break;
+
+            case '8':
+                //EIGHT();
+                console.log("eight is select");
+                break;
+
+            case '9':
+                //NINE();
+                console.log("nine is select");
+                break;
+
+            case '10':
+                //TEN();
+                console.log("ten is select");
+                break;
+
+            case '11':
+                //ELEVEN();
+                console.log("eleven is select");
+                break;
+
+            default:
+                Alert.alert("NUMBER NOT FOUND");
+
+        }
+    }
+
     const chkData = [
-        { damage: 0, name: '1 ใจเต้นเร็วและรัว' },
-        { damage: 0, name: '2 เหงื่อแตก' },
-        { damage: 0, name: '3 ตัวสั่น' },
-        { damage: 0, name: '4 อึดอัดหายใจไม่ออก ' },
-        { damage: 0, name: '5 หายใจติดขัดไม่สะดวก' },
-        { damage: 0, name: '6 รู้สึกมึนงง วิงเวียนศรีษะเป็นลม' },
-        { damage: 0, name: '7 รู้สึกหนาวๆ ร้อนๆ' },
-        { damage: 0, name: '8 ตัวชาหรือเป็นเหน็บ' },
-        { damage: 0, name: '9 รู้สึกไม่เป็นตัวของตัวเอง' },
-        { damage: 0, name: '10 กลัวที่จะเสียสติ' },
-        { damage: 0, name: '11 กลัวว่าอาจตายได้' }
+        { damage: 0, name: '1 ใจเต้นเร็วและรัว', label: '1' },
+        { damage: 0, name: '2 เหงื่อแตก', label: '2' },
+        { damage: 0, name: '3 ตัวสั่น', label: '3' },
+        { damage: 0, name: '4 อึดอัดหายใจไม่ออก ', label: '4' },
+        { damage: 0, name: '5 หายใจติดขัดไม่สะดวก', label: '5' },
+        { damage: 0, name: '6 รู้สึกมึนงง วิงเวียนศรีษะเป็นลม', label: '6' },
+        { damage: 0, name: '7 รู้สึกหนาวๆ ร้อนๆ', label: '7' },
+        { damage: 0, name: '8 ตัวชาหรือเป็นเหน็บ', label: '8' },
+        { damage: 0, name: '9 รู้สึกไม่เป็นตัวของตัวเอง', label: '9' },
+        { damage: 0, name: '10 กลัวที่จะเสียสติ', label: '10' },
+        { damage: 0, name: '11 กลัวว่าอาจตายได้', label: '11' }
     ]
 
     const [timeChart, setTimeChart] = useState(true);
@@ -306,12 +345,12 @@ const ReportScreen = ({ navigation }) => {
     }
 
     return (
-        <ScrollView style={{ marginTop: 20 }}>
+        <ScrollView style={{ margin: 10, borderRadius: 7 }}>
             <View style={styles.container}>
 
                 <View
                     style={{
-                        flex: 1,
+                        //flex: 1,
                         flexDirection: 'row',
                         margin: 5
                     }}
@@ -360,7 +399,9 @@ const ReportScreen = ({ navigation }) => {
                                 //margin: 5,
                                 justifyContent: 'center',
                                 alignItems: 'center',
-                                //borderRadius: 5,
+                                borderBottomRightRadius: 5,
+                                borderTopRightRadius: 5,
+                                borderBottomRightRadius: 5,
                                 backgroundColor: isSelectedWeek ? 'lightblue' : '#eee'
                             }}
                         >
@@ -374,7 +415,6 @@ const ReportScreen = ({ navigation }) => {
                             </Text>
                         </View>
                     </TouchableOpacity>
-
 
                     {/* <TouchableOpacity
                         activeOpacity={0.6}
@@ -431,6 +471,7 @@ const ReportScreen = ({ navigation }) => {
                         >
                             <TouchableOpacity
                                 activeOpacity={0.6}
+                                onPress={() => checkSwitch(chk.label)}
                             >
                                 <View style={{
                                     backgroundColor: '#FFF0F3',
@@ -493,7 +534,6 @@ const ReportScreen = ({ navigation }) => {
                         //backgroundColor: '#a6e4d0',
                         ...styles.btnColor,
                         padding: 5,
-                        marginTop: 15,
                         borderRadius: 7,
                     }}
                 >
@@ -518,8 +558,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#FEC8D8',
-        borderRadius: 10,
-        margin: 15,
+        borderRadius: 7,
+        margin: 10,
         padding: 15
     },
     btnColor: {

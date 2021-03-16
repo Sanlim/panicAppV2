@@ -7,12 +7,12 @@ const ListAppointment = ({ item, deleteItem }) => {
     return (
         <TouchableOpacity style={styles.listItem}>
             <View style={styles.listItemView}>
-                <Text style={styles.listItemText}>{item.date}</Text>
-                <Text style={styles.listItemText}>{item.time} น.</Text>
-                <Text style={styles.listItemText}>{item.place}</Text>
+                <Text style={styles.listItemText}>วันที่ {item.date}</Text>
+                <Text style={styles.listItemText}>เวลา {item.time} น.</Text>
+                <Text style={styles.listItemText}>สถานที่ {item.place}</Text>
 
             </View>
-            <Icon name="remove" size={20} color="firebrick"
+            <Icon name="remove" size={32} color="firebrick"
                 onPress={() => deleteItem(item.id)} />
         </TouchableOpacity>
     );
@@ -20,12 +20,14 @@ const ListAppointment = ({ item, deleteItem }) => {
 
 const styles = StyleSheet.create({
     listItem: {
-        padding: 15,
-        backgroundColor: "#f8f8f8",
-        borderBottomWidth: 1,
-        borderColor: "#eee",
+        padding: 10,
+        backgroundColor: "#FEE1E6",
+        borderColor: "#aaa",
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        borderRadius: 10,
+        margin: 10
     },
     listItemView: {
         flexDirection: 'column',

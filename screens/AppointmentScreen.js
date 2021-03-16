@@ -4,15 +4,23 @@ import { windowHeight, windowWidth } from '../utils/Dimensions';
 import ListAppointment from '../components/ListAppointment';
 import uuid from 'uuid-random';
 import DatePicker from 'react-native-date-picker';
-import { Picker } from '@react-native-community/picker';
+import AppointmentMPK from '../components/AppointmentMPK';
 
-const Item = Picker.Item;
 
 const AppointmentScreen = () => {
-    const [modalVisible, setModalVisible] = useState(false);
+    const [selectData, setSelectData] = useState('เลือกสถานที่...');
+    const [isModalTimeVisible, setIsModalTimeVisible] = useState(false);
+    const [isModalPlaceVisible, setIsModalPlaceVisible] = useState(false);
     const [date, setDate] = useState(new Date());
 
-    const [place, setPlace] = useState();
+    const changeModalVisibility = (bool) => {
+        setIsModalPlaceVisible(bool)
+    }
+
+    const setData = (option) => {
+        setSelectData(option)
+        console.log(selectData);
+    }
 
     //rebuild time string
     let dateSelect = date.toLocaleDateString();
@@ -33,7 +41,6 @@ const AppointmentScreen = () => {
         });
     };
 
-    console.log(dateSelect, time, place);
 
     const addItem = (date, time, place) => {
         if (!(date && time && place)) {
@@ -50,11 +57,43 @@ const AppointmentScreen = () => {
         }
     };
 
-    console.log(items);
 
     return (
         <View style={styles.centeredView}>
-            <View style={{ alignItems: 'center', borderRadius: 20 }}>
+
+            <TouchableOpacity
+                style={styles.selectBtn}
+                onPress={() => changeModalVisibility(true)}
+            >
+                <Text
+                    style={styles.text}
+                >
+                    {selectData}
+                </Text>
+            </TouchableOpacity>
+
+            <Modal
+                transparent={true}
+                animationType="slide"
+                visible={isModalPlaceVisible}
+                onRequestClose={() => changeModalVisibility(false)}
+            >
+                <AppointmentMPK
+                    changeModalVisibility={changeModalVisibility}
+                    setData={setData}
+                />
+            </Modal>
+
+            <View
+                style={{
+                    alignItems: 'center',
+                    borderRadius: 7,
+                    backgroundColor: 'lightblue',
+                    width: '80%',
+                    left: '11%',
+                    padding: 5
+                }}
+            >
                 <Text style={{ fontSize: 30 }}>
                     วัน {dateSelect}
                     {'\n'}
@@ -65,7 +104,7 @@ const AppointmentScreen = () => {
             <Modal
                 animationType="slide"
                 transparent={true}
-                visible={modalVisible}
+                visible={isModalTimeVisible}
                 onRequestClose={() => {
                     Alert.alert('Modal has been closed.');
                 }}>
@@ -76,7 +115,7 @@ const AppointmentScreen = () => {
                         <TouchableHighlight
                             style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
                             onPress={() => {
-                                setModalVisible(!modalVisible)
+                                setIsModalTimeVisible(!isModalTimeVisible)
                             }}>
                             <Text style={styles.textStyle}>ตกลง</Text>
                         </TouchableHighlight>
@@ -84,34 +123,23 @@ const AppointmentScreen = () => {
                 </View>
             </Modal>
 
-            <View style={styles.pickerContainer}>
-                <Picker
-                    selectedValue={place}
-                    onValueChange={(v) => setPlace(v)}
-                    mode="dropdown"
-                >
-                    <Item label="รพ.ม.อ." value="รพ.ม.อ." />
-                    <Item label="รพ.หาดใหญ่" value="รพ.หาดใหญ่" />
-                </Picker>
-            </View>
-
             <TouchableHighlight
                 style={styles.openButton}
                 onPress={() => {
-                    setModalVisible(true);
+                    setIsModalTimeVisible(true);
                 }}>
                 <Text style={styles.textStyle}>เลือกวันและเวลา</Text>
             </TouchableHighlight>
 
             <TouchableOpacity
                 activeOpacity={0.6}
-                onPress={() => addItem(dateSelect, time, place)}>
+                onPress={() => addItem(dateSelect, time, selectData)}>
                 <View style={styles.button}>
                     <Text style={{ fontSize: 20, fontWeight: 'bold' }}>บันทึก</Text>
                 </View>
             </TouchableOpacity>
 
-            <View style={{ alignItems: 'center', flex: 1, width: 400 }}>
+            <View style={{ flex: 0.98, width: '70%', borderRadius: 7, left: '13%' }}>
                 <FlatList
                     data={items}
                     renderItem={({ item }) => (
@@ -128,69 +156,64 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         //alignItems: "center",
-        marginTop: 50,
-      },
-      modalView: {
+        marginTop: 15,
+    },
+    modalView: {
         margin: 20,
         backgroundColor: 'white',
-        borderRadius: 20,
+        borderRadius: 7,
         padding: 35,
         alignItems: 'center',
         shadowColor: '#000',
         shadowOffset: {
-          width: 0,
-          height: 2,
+            width: 0,
+            height: 2,
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
         zIndex: 0,
-      },
-      openButton: {
+    },
+    openButton: {
         backgroundColor: '#F194FF',
-        borderRadius: 20,
+        borderRadius: 7,
         padding: 10,
         width: 200,
         marginHorizontal: '25%',
         //elevation: 2,
-      },
-      textStyle: {
-        color: 'white',
-        fontWeight: 'bold',
+        marginVertical: 15
+    },
+    textStyle: {
+        color: '#000',
         textAlign: 'center',
         fontSize: 20,
-      },
-      modalText: {
+    },
+    modalText: {
         marginBottom: 15,
         textAlign: 'center',
         fontSize: 25,
-      },
-      button: {
+    },
+    button: {
         alignItems: 'center',
         backgroundColor: '#a6e4d0',
         padding: 10,
         width: 150,
-        margin: 10,
-        borderRadius: 20,
-        marginHorizontal: '30%',
-      },
-      inputField: {
-        padding: 10,
-        marginTop: 5,
         marginBottom: 10,
-        width: windowWidth / 1.5,
-        height: windowHeight / 15,
-        fontSize: 16,
-        borderRadius: 8,
-        borderWidth: 1,
-        backgroundColor: '#FFFFFF',
-      },
-      pickerContainer: {
-        padding: 10,
-        width: '50%',
-        marginLeft: '25%',
-        borderColor: '#fff'
-      },
+        borderRadius: 7,
+        marginHorizontal: '30%',
+    },
+    text: {
+        marginVertical: 15,
+        fontSize: 22
+    },
+    selectBtn: {
+        backgroundColor: '#F1C27D',
+        alignSelf: 'stretch',
+        paddingHorizontal: 25,
+        borderRadius: 7,
+        marginHorizontal: 15,
+        marginBottom: 15
+    }
 });
 
 export default AppointmentScreen;
