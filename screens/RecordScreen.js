@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Picker } from '@react-native-community/picker';
 import firestore from '@react-native-firebase/firestore'
@@ -6,13 +6,16 @@ import moment from 'moment'
 import { Slider } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Feather'
 import { useFocusEffect } from '@react-navigation/native';
+import { AuthContext } from '../navigation/AuthProvider';
 
 const Item = Picker.Item;
 
 const RecordScreen = ({ navigation }) => {
+    const { user, logout } = useContext(AuthContext);
+
     //const [value, setValue] = useState(5)
 
-    const usersCollectionRef = firestore().collection('อาการ');
+    const usersCollectionRef = firestore().collection('Users').doc(user.email).collection('อาการ');
 
     const chkData = [
         { damage: 0, name: '1 ใจเต้นเร็วและรัว' },
@@ -116,7 +119,7 @@ const RecordScreen = ({ navigation }) => {
                     </View>
                     <TouchableOpacity
                         activeOpacity={0.6}
-                        onPress={() => navigation.navigate("Summary", {
+                        onPress={() => navigation.navigate("Report", {
                             arrDam: arrDam
                         }, recordSymps())}
                     >

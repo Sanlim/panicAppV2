@@ -3,6 +3,8 @@ import { ScrollView } from 'react-native';
 import { StyleSheet, Text, View, Dimensions, TouchableOpacity } from 'react-native';
 import { LineChart } from "react-native-chart-kit";
 
+import firestore from '@react-native-firebase/firestore'
+
 const Daily = () => {
 
     const day = [

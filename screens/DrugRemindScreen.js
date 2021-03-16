@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import {
     StyleSheet,
     Text,
@@ -16,12 +16,20 @@ import DatePicker from 'react-native-date-picker';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import ModalPicker from '../components/ModalPicker';
 
+import { AuthContext } from '../navigation/AuthProvider';
+import firestore from '@react-native-firebase/firestore'
+import moment from 'moment'
+
 const DrugRemindScreen = () => {
     const [dose, setDose] = useState(0);
     const [selectData, setSelectData] = useState('เลือกยา...');
     const [isModalTimeVisible, setIsModalTimeVisible] = useState(false);
     const [isModalMedVisible, setIsModalMedVisible] = useState(false);
     const [date, setDate] = useState(new Date());
+
+    const { user } = useContext(AuthContext);
+    const usersCollectionRef = firestore().collection('Users').doc(user.email).collection('เตือนกินยา');
+
 
     const changeModalVisibility = (bool) => {
         setIsModalMedVisible(bool)
@@ -62,6 +70,13 @@ const DrugRemindScreen = () => {
                 return [{ id: uuid(), med, dose, time }, ...prevItems]
             })
         }
+    }
+
+    const remindDrug = () => {
+        usersCollectionRef.doc(moment().format('MMM Do YYYY h:mm:ss a')).set({
+            //dateTime: now,
+            "เวลาเตือน": items
+        })
     }
 
     useEffect(() => {
@@ -212,7 +227,7 @@ const DrugRemindScreen = () => {
                     marginBottom: 10,
                     borderRadius: 7
                 }}
-                onPress={() => addItem(selectData, dose, time)}
+                onPress={() => [addItem(selectData, dose, time), remindDrug()]}
             >
                 <Text
                     style={{

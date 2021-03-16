@@ -6,11 +6,16 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { AuthContext } from '../navigation/AuthProvider';
 import { Calendar } from 'react-native-calendars';
+import firestore from '@react-native-firebase/firestore'
+import moment from 'moment'
 
+const OverlayEditName = Overlay;
 
 const ProfileScreen = () => {
   const { user, logout } = useContext(AuthContext);
   //console.log(user);
+
+  const usersCollectionRef = firestore().collection('Users').doc(user.email).collection('ข้อมูลส่วนตัว');
 
   const [visible, setVisible] = useState(false);
 
@@ -24,16 +29,33 @@ const ProfileScreen = () => {
     setVisibleEditName(!visibleEditName);
   };
 
-  const [address, setAddress] = useState('')
   const [name, setName] = useState(user.email);
   const [phoneNumber, setPhoneNumber] = useState('+66 ')
 
-  const [birthDate, setBirthDate] = useState();
-  const [gender, setGender] = useState();
-  const [weight, setWeight] = useState();
-  const [height, setHeight] = useState();
-  const [career, setCareer] = useState();
+  const [birthDate, setBirthDate] = useState('วว/ดด/ปปปป');
+  const [gender, setGender] = useState('...');
+  const [weight, setWeight] = useState('...');
+  const [height, setHeight] = useState('...');
+  const [career, setCareer] = useState('...');
 
+  const saveProfile = () => {
+    usersCollectionRef.doc(moment().format('ข้อมูลส่วนตัว')).set({
+      //dateTime: now,      
+      name,
+      phoneNumber,
+      birthDate,
+      gender,
+      weight,
+      height,
+      career
+    })
+    //console.log(items);
+  }
+
+  const twoFunc = () => {
+    saveProfile()
+    toggleOverlay()
+  }
 
 
   return (
@@ -54,50 +76,12 @@ const ProfileScreen = () => {
               }]}
             >
               {name}
-              <TouchableOpacity
-                onPress={toggleOverlayEditName}
-                style={{ alignItems: 'flex-end', position: 'relative' }}
-              >
-                <Icon name="account-edit" size={40} />
-              </TouchableOpacity>
             </Title>
             <Caption style={styles.caption}>@{user.email}</Caption>
 
           </View>
         </View>
       </View>
-
-      <Overlay isVisible={visibleEditName} onBackdropPress={toggleOverlayEditName} >
-
-        <View
-          style={{
-            width: '80%',
-            borderColor: '#FF6347',
-            borderWidth: 2,
-            borderRadius: 7,
-            flexDirection: 'row',
-            alignItems: 'center'
-          }}
-        >
-          <Icon name="account-edit" color="#FF6347" size={25} />
-          <TextInput
-            placeholder="ชื่อ"
-            placeholderTextColor="#666"
-            onChangeText={setName}
-            style={styles.input}
-          //keyboardType='numeric'
-          />
-        </View >
-
-        <View style={{ alignItems: 'center', marginTop: 10, }}>
-          <TouchableOpacity onPress ={toggleOverlayEditName}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#FFDFD3', padding: 7, borderRadius: 7 }}>
-              <Icon name="content-save-edit-outline" color="#FF6347" size={25} />
-              <Text style={{ fontSize: 20 }}>บันทึก</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </Overlay>
 
       <View style={styles.userInfoSection}>
 
@@ -115,9 +99,9 @@ const ProfileScreen = () => {
 
         <TouchableOpacity
           onPress={toggleOverlay}>
-          <View style={styles.profileItem}>
+          <View style={[styles.profileItem, { backgroundColor: '#8F6DD8' }]}>
             <Icon name="account-edit" color="#FF6347" size={25} />
-            <Text style={styles.profileItemText}>แก้ไขข้อมูลส่วนตัว</Text>
+            <Text style={[styles.profileItemText, { color: '#fff' }]}>แก้ไขข้อมูลส่วนตัว</Text>
           </View>
         </TouchableOpacity>
 
@@ -125,7 +109,7 @@ const ProfileScreen = () => {
           <View style={styles.profileItem}>
             <Icon name="calendar-today" color="#FF6347" size={25} />
             <Text style={styles.profileItemText}>วันเกิด  </Text>
-            <Text style={{ fontSize: 20 }}>{birthDate}</Text>
+            <Text style={{ fontSize: 20 }}>   {birthDate}</Text>
           </View>
         </TouchableRipple>
 
@@ -133,7 +117,7 @@ const ProfileScreen = () => {
           <View style={styles.profileItem}>
             <Icon name="human-male-male" color="#FF6347" size={25} />
             <Text style={styles.profileItemText}>เพศ  </Text>
-            <Text style={{ fontSize: 20 }}>{gender}</Text>
+            <Text style={{ fontSize: 20 }}>   {gender}</Text>
           </View>
         </TouchableRipple>
 
@@ -141,7 +125,7 @@ const ProfileScreen = () => {
           <View style={styles.profileItem}>
             <Icon name="weight-kilogram" color="#FF6347" size={25} />
             <Text style={styles.profileItemText}>น้ำหนัก </Text>
-            <Text style={{ fontSize: 20 }}>{weight}</Text>
+            <Text style={{ fontSize: 20 }}>   {weight}</Text>
           </View>
         </TouchableRipple>
 
@@ -149,7 +133,7 @@ const ProfileScreen = () => {
           <View style={styles.profileItem}>
             <Icon name="human-male-height" color="#FF6347" size={25} />
             <Text style={styles.profileItemText}>ส่วนสูง  </Text>
-            <Text style={{ fontSize: 20 }}>{height}</Text>
+            <Text style={{ fontSize: 20 }}>   {height}</Text>
           </View>
         </TouchableRipple>
 
@@ -157,7 +141,7 @@ const ProfileScreen = () => {
           <View style={styles.profileItem}>
             <MaterialIcons name="work" color="#FF6347" size={25} />
             <Text style={styles.profileItemText}>อาชีพ </Text>
-            <Text style={{ fontSize: 20 }}>{career}</Text>
+            <Text style={{ fontSize: 20 }}>   {career}</Text>
           </View>
         </TouchableRipple>
 
@@ -169,12 +153,20 @@ const ProfileScreen = () => {
         </TouchableOpacity>
       </View>
 
-
-
-
-      <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
+      <OverlayEditName isVisible={visible} onBackdropPress={toggleOverlay}>
 
         <View style={styles.profileContainerOverlay}>
+
+          <View style={styles.editBox}>
+            <Icon name="account-edit" color="#FF6347" size={25} />
+            <TextInput
+              placeholder="ชื่อ"
+              placeholderTextColor="#666"
+              onChangeText={setName}
+              style={styles.input}
+            //keyboardType='numeric'
+            />
+          </View >
 
           <View style={styles.editBox}>
             <Icon name="phone" color="#FF6347" size={25} />
@@ -247,17 +239,17 @@ const ProfileScreen = () => {
           </View>
 
           <TouchableOpacity
-            onPress={toggleOverlay}
+            onPress={twoFunc}
           >
             <View style={styles.profileItem}>
-              <Icon name="logout" color="#FF6347" size={25} />
+              <Icon name="content-save-edit-outline" color="#FF6347" size={25} />
               <Text style={styles.profileItemText}>บันทึก</Text>
             </View>
           </TouchableOpacity>
         </View>
 
 
-      </Overlay>
+      </OverlayEditName>
 
     </SafeAreaView>
   );
@@ -314,7 +306,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 7,
     marginVertical: 5,
-    padding: 2
+    //padding: 2
   },
   input: {
     flex: 1,

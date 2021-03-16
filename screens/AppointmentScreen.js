@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet, Text, Alert, TouchableOpacity, View, Modal, FlatList, TouchableHighlight } from 'react-native';
 import { windowHeight, windowWidth } from '../utils/Dimensions';
 import ListAppointment from '../components/ListAppointment';
@@ -6,12 +6,20 @@ import uuid from 'uuid-random';
 import DatePicker from 'react-native-date-picker';
 import AppointmentMPK from '../components/AppointmentMPK';
 
+import { AuthContext } from '../navigation/AuthProvider';
+import firestore from '@react-native-firebase/firestore'
+import moment from 'moment'
+
 
 const AppointmentScreen = () => {
     const [selectData, setSelectData] = useState('เลือกสถานที่...');
     const [isModalTimeVisible, setIsModalTimeVisible] = useState(false);
     const [isModalPlaceVisible, setIsModalPlaceVisible] = useState(false);
     const [date, setDate] = useState(new Date());
+
+    const { user } = useContext(AuthContext);
+
+    const usersCollectionRef = firestore().collection('Users').doc(user.email).collection('เตือนนัดแพทย์');
 
     const changeModalVisibility = (bool) => {
         setIsModalPlaceVisible(bool)
@@ -56,6 +64,13 @@ const AppointmentScreen = () => {
             });
         }
     };
+
+    const appointment = () => {
+        usersCollectionRef.doc(moment().format('MMM Do YYYY h:mm:ss a')).set({
+            //dateTime: now,
+            "วันนัด": items
+        })
+    }
 
 
     return (
@@ -133,7 +148,9 @@ const AppointmentScreen = () => {
 
             <TouchableOpacity
                 activeOpacity={0.6}
-                onPress={() => addItem(dateSelect, time, selectData)}>
+                onPress={() => [addItem(dateSelect, time, selectData),
+                appointment()
+                ]}>
                 <View style={styles.button}>
                     <Text style={{ fontSize: 20, fontWeight: 'bold' }}>บันทึก</Text>
                 </View>
