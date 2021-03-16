@@ -5,7 +5,6 @@ import MainTabScreen from './MainTabScreen';
 import DrugRemindScreen from '../screens/DrugRemindScreen';
 import AppointmentScreen from '../screens/AppointmentScreen';
 import ReportScreen from '../screens/ReportScreen';
-import SummarySymtompsScreen from '../screens/SummarySymtompsScreen';
 import EditProfile from '../screens/EditProfile';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -81,11 +80,6 @@ const HomeStackScreen = () => {
                 <Stack.Screen
                     name="Report"
                     component={ReportScreen}
-                    options={{ header: () => null }}
-                />
-                <Stack.Screen
-                    name="Summary"
-                    component={SummarySymtompsScreen}
                     options={{ header: () => null }}
                 />
                 <Stack.Screen
