@@ -11,11 +11,22 @@ import { AuthContext } from '../navigation/AuthProvider';
 const Item = Picker.Item;
 
 const RecordScreen = ({ navigation }) => {
-    const { user, logout } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
 
     //const [value, setValue] = useState(5)
 
-    const usersCollectionRef = firestore().collection('Users').doc(user.email).collection('อาการ');
+    const date = moment().format('MMM Do YY')
+    const time = moment().format('LT')
+
+    console.log('date: ',time);
+
+    const usersCollectionRef = 
+    firestore()
+    .collection('Users')
+    .doc(user.email)
+    .collection('อาการ')
+    .doc(date)
+    .collection(time)
 
     const chkData = [
         { damage: 0, name: '1 ใจเต้นเร็วและรัว' },
@@ -43,7 +54,7 @@ const RecordScreen = ({ navigation }) => {
     //console.log(arrDam.damage);
 
     const recordSymps = () => {
-        usersCollectionRef.doc(moment().format('MMM Do YYYY h:mm:ss a')).set({
+        usersCollectionRef.add({
             //dateTime: now,
             "อาการ": arrDam
         })

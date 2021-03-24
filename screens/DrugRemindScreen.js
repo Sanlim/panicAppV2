@@ -17,6 +17,7 @@ import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import ModalPicker from '../components/ModalPicker';
 
 import { AuthContext } from '../navigation/AuthProvider';
+import firebase from '@react-native-firebase/app'
 import firestore from '@react-native-firebase/firestore'
 import moment from 'moment'
 
@@ -27,8 +28,13 @@ const DrugRemindScreen = () => {
     const [isModalMedVisible, setIsModalMedVisible] = useState(false);
     const [date, setDate] = useState(new Date());
 
+
     const { user } = useContext(AuthContext);
-    const usersCollectionRef = firestore().collection('Users').doc(user.email).collection('เตือนกินยา');
+    const usersCollectionRef =
+        firestore()
+            .collection('Users')
+            .doc(user.email)
+            .collection('เตือนกินยา')
 
 
     const changeModalVisibility = (bool) => {
@@ -60,12 +66,19 @@ const DrugRemindScreen = () => {
     }
 
     const addItem = (med, dose, time) => {
-        if (!(med && dose && time)) {
-            Alert.alert('Error', 'กรุณาใส่ข้อมูล', [
+        if (!(med != 'เลือกยา...' && dose && time)) {
+            Alert.alert('Error', 'กรุณากรอกข้อมูล', [
                 { text: "OK" }
             ],
                 { cancelable: true });
-        } else {
+        }
+        else if (!(med != 'เลือกยา...' && (dose >=1 && dose <= 3) && time)) {
+            Alert.alert('Error', 'จำนวนยาน้อยหรือมากเกินไป\nกรุณากรอกข้อมูลใหม่อีกครั้ง', [
+                { text: "OK" }
+            ],
+                { cancelable: true });
+        }
+        else {
             setItems(prevItems => {
                 return [{ id: uuid(), med, dose, time }, ...prevItems]
             })
@@ -73,15 +86,11 @@ const DrugRemindScreen = () => {
     }
 
     const remindDrug = () => {
-        usersCollectionRef.doc(moment().format('MMM Do YYYY h:mm:ss a')).set({
+        usersCollectionRef.doc().set({
             //dateTime: now,
-            "เวลาเตือน": items
+            'ข้อมูล': items
         })
     }
-
-    useEffect(() => {
-        setDose(0)
-    }, [])
 
     return (
         <SafeAreaView style={styles.container}>
@@ -112,7 +121,7 @@ const DrugRemindScreen = () => {
 
             <View
                 style={{
-                    backgroundColor: 'lightgreen',
+                    backgroundColor: '#13c6ab',
                     padding: 10,
                     marginBottom: 15,
                     borderRadius: 7,
@@ -137,7 +146,7 @@ const DrugRemindScreen = () => {
             >
                 <TouchableOpacity
                     style={{
-                        backgroundColor: "#81C43F",
+                        backgroundColor: "#13c6ab",
                         alignItems: 'center',
                         padding: 5,
                         borderRadius: 7,
@@ -150,7 +159,7 @@ const DrugRemindScreen = () => {
 
                 <TouchableOpacity
                     style={{
-                        backgroundColor: "#81C43F",
+                        backgroundColor: "#13c6ab",
                         alignItems: 'center',
                         padding: 5,
                         borderRadius: 7,
@@ -165,7 +174,7 @@ const DrugRemindScreen = () => {
 
             <View style={{
                 alignItems: 'center',
-                backgroundColor: "#B5EAD7",
+                backgroundColor: "#18e9c8",
                 margin: 15,
                 width: '40%',
                 height: '7%',
@@ -188,7 +197,7 @@ const DrugRemindScreen = () => {
             >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Text style={styles.modalText}>เลือกวันและเวลา</Text>
+                        <Text style={styles.modalText}>เลือกเวลา</Text>
                         <DatePicker locale="th-TH" date={date} onDateChange={setDate} mode="time" />
                         <View style={{ flexDirection: 'row', justifyContent: 'space-around', left: '-7.5%' }}>
                             <TouchableOpacity
@@ -215,14 +224,14 @@ const DrugRemindScreen = () => {
                 onPress={() => {
                     setIsModalTimeVisible(true);
                 }}>
-                <Text style={styles.textStyle}>เลือกวันและเวลา</Text>
+                <Text style={styles.textStyle}>เลือกเวลา</Text>
             </TouchableHighlight>
 
 
 
             <TouchableOpacity
                 style={{
-                    backgroundColor: '#F1C27D',
+                    backgroundColor: '#a7f6ea',
                     marginTop: 10,
                     marginBottom: 10,
                     borderRadius: 7
@@ -286,10 +295,10 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
     },
     openButton: {
-        backgroundColor: '#F194FF',
+        backgroundColor: '#18e9c8',
         borderRadius: 10,
         padding: 10,
-        width: 200,
+        width: 150,
         marginHorizontal: '25%',
     },
     confirmButton: {
@@ -311,10 +320,11 @@ const styles = StyleSheet.create({
     },
     text: {
         marginVertical: 15,
-        fontSize: 22
+        fontSize: 22,
+        color: '#000'
     },
     selectBtn: {
-        backgroundColor: '#F1C27D',
+        backgroundColor: '#10a28c',
         alignSelf: 'stretch',
         paddingHorizontal: 25,
         borderRadius: 7,

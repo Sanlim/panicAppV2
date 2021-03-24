@@ -24,7 +24,7 @@ const PanicTestScreen = () => {
 
     const chkData_2 = [
         {
-            name: 'ยังคงรู้สึกวิตกกังวลเกี่ยวกับอาการแพนิคที่เกิดขึ้นไปแล้วหรือกังวลถึงผลที่เกิดขึ้นตามมา เช่นการเสียการควบคุมตนเอง อาการเสียสติ อาการหัวใจวาย', value: false
+            name: 'ยังคงรู้สึกวิตกกังวลเกี่ยวกับอาการแพนิคที่เกิดขึ้นไปแล้วหรือกังวลถึงผลที่เกิดขึ้นตามมา เช่น การเสียการควบคุมตนเอง อาการเสียสติ อาการหัวใจวาย', value: false
         },
         {
             name: 'มีพฤติกรรมที่เปลี่ยนไปอย่างเห็นได้ชัด เช่น หลีกเลี่ยงสถานการณ์ที่จะทำให้เกิดอาการแพนิคไม่ออกกำลังกายเลี่ยงสถานการณ์ที่ไม่คุ้นเคย เป็นต้น', value: false
@@ -118,10 +118,14 @@ const PanicTestScreen = () => {
                 <View style={styles.chBox} >
 
                     <View style={styles.chBox1}>
+
+                        <Text style={{ fontSize: 22, fontWeight: 'bold', padding: 10, backgroundColor: 'lightblue', borderRadius: 10}}>
+                            แบบประเมินนี้อ้างอิงจาก: DSM-5 Diagnostic criteria for anxiety disorders
+                        </Text>
                         <Text style={{ fontSize: 20, fontWeight: 'bold', padding: 10 }}>
                             ส่วนที่ 1
                         </Text>
-                        <Text style={{ fontSize: 17, padding: 5, margin: 5 }}>
+                        <Text style={{ fontSize: 18, padding: 5, margin: 5 }}>
                             {'\t'}{'\t'}โรคแพนิคเป็นอาการที่เกิดขึ้นแบบจู่โจม รู้สึกกลัวหรือตื่นตระหนกอย่างฉับพลันภายในไม่กี่นาที
                             โดยระหว่างที่ท่านมีอาการแพนิค ท่านมีอาการต่างๆเหล่านี้ร่วมด้วยอย่างน้อย 4 อย่างหรือไม่
                         </Text>
@@ -143,7 +147,7 @@ const PanicTestScreen = () => {
                                             padding: '2%',
                                             flexDirection: 'row'
                                         }}>
-                                            <Text style={{ fontSize: 20, color: 'black' }}>{chk.name}</Text>
+                                            <Text style={{ fontSize: 20, color: 'black', fontWeight: 'bold' }}>{chk.name}</Text>
                                             {
                                                 chk.isSelected
                                                     //เลือก
@@ -182,7 +186,7 @@ const PanicTestScreen = () => {
                                             borderRadius: 20,
                                             padding: '2%',
                                         }}>
-                                            <Text style={{ fontSize: 18, color: 'black' }}>{chk.name}</Text>
+                                            <Text style={{ fontSize: 18, color: 'black', fontWeight: 'bold' }}>{chk.name}</Text>
                                             {
                                                 chk.isSelected
                                                     //เลือก

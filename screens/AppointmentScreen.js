@@ -19,10 +19,23 @@ const AppointmentScreen = () => {
 
     const { user } = useContext(AuthContext);
 
-    const usersCollectionRef = firestore().collection('Users').doc(user.email).collection('เตือนนัดแพทย์');
+    const dateToSave = moment().format('MMM Do YY')
+    const timeToSave = moment().format('LT')
 
-    const changeModalVisibility = (bool) => {
+    const usersCollectionRef =
+        firestore()
+            .collection('Users')
+            .doc(user.email)
+            .collection('เตือนนัดแพทย์')
+            .doc(dateToSave)
+            .collection(timeToSave)
+
+    const changeModalPlaceVisibility = (bool) => {
         setIsModalPlaceVisible(bool)
+    }
+
+    const changeModalTimeVisibility = (bool) => {
+        setIsModalTimeVisible(bool)
     }
 
     const setData = (option) => {
@@ -51,11 +64,11 @@ const AppointmentScreen = () => {
 
 
     const addItem = (date, time, place) => {
-        if (!(date && time && place)) {
+        if (!(date && time && place != 'เลือกสถานที่...')) {
             Alert.alert(
                 'Error',
                 'กรุณาใส่ข้อมูล',
-                [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+                [{ text: 'OK' }],
                 { cancelable: true },
             );
         } else {
@@ -66,7 +79,7 @@ const AppointmentScreen = () => {
     };
 
     const appointment = () => {
-        usersCollectionRef.doc(moment().format('MMM Do YYYY h:mm:ss a')).set({
+        usersCollectionRef.add({
             //dateTime: now,
             "วันนัด": items
         })
@@ -78,7 +91,7 @@ const AppointmentScreen = () => {
 
             <TouchableOpacity
                 style={styles.selectBtn}
-                onPress={() => changeModalVisibility(true)}
+                onPress={() => changeModalPlaceVisibility(true)}
             >
                 <Text
                     style={styles.text}
@@ -91,10 +104,10 @@ const AppointmentScreen = () => {
                 transparent={true}
                 animationType="slide"
                 visible={isModalPlaceVisible}
-                onRequestClose={() => changeModalVisibility(false)}
+                onRequestClose={() => changeModalPlaceVisibility(false)}
             >
                 <AppointmentMPK
-                    changeModalVisibility={changeModalVisibility}
+                    changeModalVisibility={changeModalPlaceVisibility}
                     setData={setData}
                 />
             </Modal>
@@ -103,7 +116,7 @@ const AppointmentScreen = () => {
                 style={{
                     alignItems: 'center',
                     borderRadius: 7,
-                    backgroundColor: 'lightblue',
+                    backgroundColor: '#18e9c8',
                     width: '80%',
                     left: '11%',
                     padding: 5
@@ -120,9 +133,8 @@ const AppointmentScreen = () => {
                 animationType="slide"
                 transparent={true}
                 visible={isModalTimeVisible}
-                onRequestClose={() => {
-                    Alert.alert('Modal has been closed.');
-                }}>
+                onRequestClose={() => changeModalTimeVisibility(false)}
+            >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <Text style={styles.modalText}>เลือกวันและเวลา</Text>
@@ -192,7 +204,7 @@ const styles = StyleSheet.create({
         zIndex: 0,
     },
     openButton: {
-        backgroundColor: '#F194FF',
+        backgroundColor: '#18e9c8',
         borderRadius: 7,
         padding: 10,
         width: 200,
@@ -212,7 +224,7 @@ const styles = StyleSheet.create({
     },
     button: {
         alignItems: 'center',
-        backgroundColor: '#a6e4d0',
+        backgroundColor: '#a7f6ea',
         padding: 10,
         width: 150,
         marginBottom: 10,
@@ -224,7 +236,7 @@ const styles = StyleSheet.create({
         fontSize: 22
     },
     selectBtn: {
-        backgroundColor: '#F1C27D',
+        backgroundColor: '#10a28c',
         alignSelf: 'stretch',
         paddingHorizontal: 25,
         borderRadius: 7,
