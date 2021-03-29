@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { SafeAreaView, StyleSheet, View, TouchableOpacity, TextInput } from 'react-native';
+import { SafeAreaView, StyleSheet, View, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { Overlay } from 'react-native-elements';
 import { Avatar, Caption, Title, Text, TouchableRipple } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -38,6 +38,46 @@ const ProfileScreen = () => {
   const [height, setHeight] = useState('...');
   const [career, setCareer] = useState('...');
 
+
+  const [editname, setEditName] = useState('');
+  const [editPhoneNumber, setEditPhoneNumber] = useState('')
+
+  const [editBirthDate, setEditBirthDate] = useState('');
+  const [editGender, setEditGender] = useState('');
+  const [editWeight, setEditWeight] = useState();
+  const [editHeight, setEditHeight] = useState();
+  const [editCareer, setEditCareer] = useState('');
+
+  const updateProfile = () => {
+    let phoneNumLen = editPhoneNumber.length;
+    let chkGender = editGender;
+    let chkWeight = editWeight;
+    let chkHeight = editHeight;
+
+    //validate form
+    if (phoneNumLen == 10
+      && (chkGender == 'ชาย' || chkGender == 'หญิง')
+      && (chkWeight >= 30 && chkWeight <= 150)
+      && (chkHeight >= 140 && chkHeight <= 200)
+    ) {
+      setName(editname)
+      setPhoneNumber(editPhoneNumber)
+      setBirthDate(editBirthDate)
+      setGender(editGender)
+      setWeight(editWeight)
+      setHeight(editHeight)
+      setCareer(editCareer)
+      saveProfile()
+      toggleOverlay()
+    }
+    else {
+      Alert.alert('Error', 'ข้อมูลไม่ถูกต้อง', [
+        { text: "OK" }
+      ],
+        { cancelable: true });
+    }
+  }
+
   const saveProfile = () => {
     usersCollectionRef.doc(moment().format('ข้อมูลส่วนตัว')).set({
       //dateTime: now,      
@@ -53,8 +93,7 @@ const ProfileScreen = () => {
   }
 
   const twoFunc = () => {
-    saveProfile()
-    toggleOverlay()
+    updateProfile()
   }
 
 
@@ -66,6 +105,7 @@ const ProfileScreen = () => {
           <Avatar.Image
             source={require('../assets/profile.png')}
             size={80}
+            style={{ backgroundColor: '#13c6ab' }}
           />
 
           <View style={{ marginLeft: 20, }}>
@@ -99,15 +139,15 @@ const ProfileScreen = () => {
 
         <TouchableOpacity
           onPress={toggleOverlay}>
-          <View style={[styles.profileItem, { backgroundColor: '#8F6DD8' }]}>
-            <Icon name="account-edit" color="#FF6347" size={25} />
-            <Text style={[styles.profileItemText, { color: '#fff' }]}>แก้ไขข้อมูลส่วนตัว</Text>
+          <View style={[styles.profileItem, { backgroundColor: '#4eeed5' }]}>
+            <Icon name="account-edit" color="#0c7f6d" size={25} />
+            <Text style={[styles.profileItemText, { color: '#000' }]}>แก้ไขข้อมูลส่วนตัว</Text>
           </View>
         </TouchableOpacity>
 
         <TouchableRipple>
           <View style={styles.profileItem}>
-            <Icon name="calendar-today" color="#FF6347" size={25} />
+            <Icon name="calendar-today" color="#0c7f6d" size={25} />
             <Text style={styles.profileItemText}>วันเกิด  </Text>
             <Text style={{ fontSize: 20 }}>   {birthDate}</Text>
           </View>
@@ -115,7 +155,7 @@ const ProfileScreen = () => {
 
         <TouchableRipple>
           <View style={styles.profileItem}>
-            <Icon name="human-male-male" color="#FF6347" size={25} />
+            <Icon name="human-male-male" color="#0c7f6d" size={25} />
             <Text style={styles.profileItemText}>เพศ  </Text>
             <Text style={{ fontSize: 20 }}>   {gender}</Text>
           </View>
@@ -123,7 +163,7 @@ const ProfileScreen = () => {
 
         <TouchableRipple>
           <View style={styles.profileItem}>
-            <Icon name="weight-kilogram" color="#FF6347" size={25} />
+            <Icon name="weight-kilogram" color="#0c7f6d" size={25} />
             <Text style={styles.profileItemText}>น้ำหนัก </Text>
             <Text style={{ fontSize: 20 }}>   {weight}</Text>
           </View>
@@ -131,7 +171,7 @@ const ProfileScreen = () => {
 
         <TouchableRipple>
           <View style={styles.profileItem}>
-            <Icon name="human-male-height" color="#FF6347" size={25} />
+            <Icon name="human-male-height" color="#0c7f6d" size={25} />
             <Text style={styles.profileItemText}>ส่วนสูง  </Text>
             <Text style={{ fontSize: 20 }}>   {height}</Text>
           </View>
@@ -139,7 +179,7 @@ const ProfileScreen = () => {
 
         <TouchableRipple>
           <View style={styles.profileItem}>
-            <MaterialIcons name="work" color="#FF6347" size={25} />
+            <MaterialIcons name="work" color="#0c7f6d" size={25} />
             <Text style={styles.profileItemText}>อาชีพ </Text>
             <Text style={{ fontSize: 20 }}>   {career}</Text>
           </View>
@@ -147,7 +187,7 @@ const ProfileScreen = () => {
 
         <TouchableOpacity onPress={() => logout()}>
           <View style={styles.profileItem}>
-            <Icon name="logout" color="#FF6347" size={25} />
+            <Icon name="logout" color="#0c7f6d" size={25} />
             <Text style={styles.profileItemText}>ออกจากระบบ</Text>
           </View>
         </TouchableOpacity>
@@ -158,22 +198,22 @@ const ProfileScreen = () => {
         <View style={styles.profileContainerOverlay}>
 
           <View style={styles.editBox}>
-            <Icon name="account-edit" color="#FF6347" size={25} />
+            <Icon name="account-edit" color="#0c7f6d" size={25} />
             <TextInput
               placeholder="ชื่อ"
               placeholderTextColor="#666"
-              onChangeText={setName}
+              onChangeText={setEditName}
               style={styles.input}
             //keyboardType='numeric'
             />
           </View >
 
           <View style={styles.editBox}>
-            <Icon name="phone" color="#FF6347" size={25} />
+            <Icon name="phone" color="#0c7f6d" size={25} />
             <TextInput
               placeholder="เบอร์โทร"
               placeholderTextColor="#666"
-              onChangeText={setPhoneNumber}
+              onChangeText={setEditPhoneNumber}
               keyboardType='numeric'
               style={styles.input}
             >
@@ -181,11 +221,11 @@ const ProfileScreen = () => {
           </View>
 
           <View style={styles.editBox}>
-            <Icon name="calendar-today" color="#FF6347" size={25} />
+            <Icon name="calendar-today" color="#0c7f6d" size={25} />
             <TextInput
-              placeholder="วันเกิด"
+              placeholder="วันเกิด ตัวอย่าง 12/10/2020"
               placeholderTextColor="#666"
-              onChangeText={setBirthDate}
+              onChangeText={setEditBirthDate}
               //keyboardType=''
               style={styles.input}
             >
@@ -193,22 +233,22 @@ const ProfileScreen = () => {
           </View>
 
           <View style={styles.editBox}>
-            <Icon name="human-male-male" color="#FF6347" size={25} />
+            <Icon name="human-male-male" color="#0c7f6d" size={25} />
             <TextInput
               placeholder="เพศ"
               placeholderTextColor="#666"
-              onChangeText={setGender}
+              onChangeText={setEditGender}
               style={styles.input}
             >
             </TextInput>
           </View>
 
           <View style={styles.editBox}>
-            <Icon name="weight-kilogram" color="#FF6347" size={25} />
+            <Icon name="weight-kilogram" color="#0c7f6d" size={25} />
             <TextInput
               placeholder="น้ำหนัก"
               placeholderTextColor="#666"
-              onChangeText={setWeight}
+              onChangeText={setEditWeight}
               style={styles.input}
               keyboardType='numeric'
             >
@@ -216,11 +256,11 @@ const ProfileScreen = () => {
           </View>
 
           <View style={styles.editBox}>
-            <Icon name="human-male-height" color="#FF6347" size={25} />
+            <Icon name="human-male-height" color="#0c7f6d" size={25} />
             <TextInput
               placeholder="ส่วนสูง"
               placeholderTextColor="#666"
-              onChangeText={setHeight}
+              onChangeText={setEditHeight}
               style={styles.input}
               keyboardType='numeric'
             >
@@ -228,11 +268,11 @@ const ProfileScreen = () => {
           </View>
 
           <View style={styles.editBox}>
-            <MaterialIcons name="work" color="#FF6347" size={25} />
+            <MaterialIcons name="work" color="#0c7f6d" size={25} />
             <TextInput
               placeholder="อาชีพ"
               placeholderTextColor="#666"
-              onChangeText={setCareer}
+              onChangeText={setEditCareer}
               style={styles.input}
             >
             </TextInput>
@@ -242,7 +282,7 @@ const ProfileScreen = () => {
             onPress={twoFunc}
           >
             <View style={styles.profileItem}>
-              <Icon name="content-save-edit-outline" color="#FF6347" size={25} />
+              <Icon name="content-save-edit-outline" color="#0c7f6d" size={25} />
               <Text style={styles.profileItemText}>บันทึก</Text>
             </View>
           </TouchableOpacity>
@@ -299,7 +339,7 @@ const styles = StyleSheet.create({
     lineHeight: 26,
   },
   editBox: {
-    borderColor: "#FF6347",
+    borderColor: "#13c68d",
     flexDirection: "row",
     alignItems: 'center',
     width: "100%",

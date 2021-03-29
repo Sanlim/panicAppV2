@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
         alignItems: 'stretch',
         borderWidth: 1,
         borderRadius: 7,
-        backgroundColor: 'lightblue',
+        backgroundColor: '#cbfaf2',
         
     },
     text: {

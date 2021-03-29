@@ -4,9 +4,9 @@ import { Picker } from '@react-native-community/picker';
 import firestore from '@react-native-firebase/firestore'
 import moment from 'moment'
 import { Slider } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/Feather'
 import { useFocusEffect } from '@react-navigation/native';
 import { AuthContext } from '../navigation/AuthProvider';
+import Colors from '../constants/Colors';
 
 const Item = Picker.Item;
 
@@ -92,7 +92,7 @@ const RecordScreen = ({ navigation }) => {
                                     width: '90%',
                                     position: 'relative',
                                     left: '3%',
-                                    backgroundColor: '#FFDAC1',
+                                    backgroundColor: '#b9f8ee',
                                     borderRadius: 10,
                                     margin: 10,
                                 }}>
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     },
     button: {
         alignItems: 'center',
-        backgroundColor: '#a6e4d0',
+        backgroundColor: Colors.btn,
         padding: 10,
         width: 150,
         margin: 10,

@@ -21,7 +21,7 @@ const ListAppointment = ({ item, deleteItem }) => {
 const styles = StyleSheet.create({
     listItem: {
         padding: 10,
-        backgroundColor: "#FEE1E6",
+        backgroundColor: "#b9f8ee",
         borderColor: "#aaa",
         flexDirection: 'row',
         alignItems: 'center',

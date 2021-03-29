@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Overlay } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/dist/MaterialIcons'
+import Colors from '../constants/Colors';
 
 const PanicTestScreen = () => {
 
@@ -119,7 +120,7 @@ const PanicTestScreen = () => {
 
                     <View style={styles.chBox1}>
 
-                        <Text style={{ fontSize: 22, fontWeight: 'bold', padding: 10, backgroundColor: 'lightblue', borderRadius: 10}}>
+                        <Text style={{ fontSize: 22, fontWeight: 'bold', padding: 10, backgroundColor: '#15d8ba', borderRadius: 10}}>
                             แบบประเมินนี้อ้างอิงจาก: DSM-5 Diagnostic criteria for anxiety disorders
                         </Text>
                         <Text style={{ fontSize: 20, fontWeight: 'bold', padding: 10 }}>
@@ -130,7 +131,7 @@ const PanicTestScreen = () => {
                             โดยระหว่างที่ท่านมีอาการแพนิค ท่านมีอาการต่างๆเหล่านี้ร่วมด้วยอย่างน้อย 4 อย่างหรือไม่
                         </Text>
 
-                        <View style={{ backgroundColor: '#B5985A', margin: 5, borderRadius: 15 }}>
+                        <View style={{ backgroundColor: '#13c6ab', margin: 5, borderRadius: 15 }}>
                             {arrChk_1.map((chk, index) => (
                                 <View key={index.toString()} style={{ margin: 10, }}>
                                     <TouchableOpacity
@@ -138,7 +139,7 @@ const PanicTestScreen = () => {
                                         onPress={() => twoFunc_chk_1(index)}
                                     >
                                         <View style={{
-                                            backgroundColor: '#FFF0F3',
+                                            backgroundColor: '#b9f8ee',
                                             width: '100%',
                                             height: 55,
                                             alignItems: 'center',
@@ -170,7 +171,7 @@ const PanicTestScreen = () => {
                             {'\t'}{'\t'}เมื่อท่านมีอาการแพนิคท่านเคยมีอาการตามข้อด้านล่างนี้
                             ไม่ว่าจะข้อใดข้อหนึ่งหรือทั้งสองข้อเป็นระยะเวลา 1 เดือนหรือมากกว่าบ้างไหม
                         </Text>
-                        <View style={{ backgroundColor: '#B5985A', margin: 5, borderRadius: 15 }}>
+                        <View style={{ backgroundColor: '#13c6ab', margin: 5, borderRadius: 15 }}>
                             {arrChk_2.map((chk, index) => (
                                 <View key={index.toString()} style={{ margin: 10, }}>
                                     <TouchableOpacity
@@ -178,7 +179,7 @@ const PanicTestScreen = () => {
                                         onPress={() => twoFunc_chk_2(index)}
                                     >
                                         <View style={{
-                                            backgroundColor: '#FFF0F3',
+                                            backgroundColor: '#b9f8ee',
                                             width: '100%',
                                             height: 150,
                                             alignItems: 'center',
@@ -255,7 +256,7 @@ const styles = StyleSheet.create({
     },
     button: {
         alignItems: 'center',
-        backgroundColor: '#a6e4d0',
+        backgroundColor: Colors.btn,
         padding: 10,
         width: 150,
         margin: 10,

@@ -51,9 +51,9 @@ const Daily = () => {
                 height={220}
                 yAxisInterval={1} // optional, defaults to 1
                 chartConfig={{
-                    backgroundColor: "#e26a00",
-                    backgroundGradientFrom: "#FFDFD3",
-                    backgroundGradientTo: "#FFDFD3",
+                    //backgroundColor: "#e26a00",
+                    backgroundGradientFrom: "#cbfaf2",
+                    backgroundGradientTo: "#a7f7e9",
                     decimalPlaces: 0, // optional, defaults to 2dp
                     color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
                     labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
@@ -63,7 +63,7 @@ const Daily = () => {
                     propsForDots: {
                         r: "6",
                         strokeWidth: "2",
-                        stroke: "#ffa726"
+                        stroke: "#61efd9"
                     }
                 }}
                 bezier
@@ -160,9 +160,9 @@ const Weekly = () => {
                 xLabelsOffset={3}
                 withInnerLines={true}
                 chartConfig={{
-                    backgroundColor: "#e26a00",
-                    backgroundGradientFrom: "#FFDFD3",
-                    backgroundGradientTo: "#FFDFD3",
+                    //backgroundColor: "blue",
+                    backgroundGradientFrom: "#cbfaf2",
+                    backgroundGradientTo: "#a7f7e9",
                     decimalPlaces: 0, // optional, defaults to 2dp
                     color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
                     labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
@@ -172,7 +172,7 @@ const Weekly = () => {
                     propsForDots: {
                         r: "6",
                         strokeWidth: "2",
-                        stroke: "#ffa726"
+                        stroke: "#61efd9"
                     }
                 }}
                 bezier
@@ -219,7 +219,7 @@ const Monthly = () => {
                 yAxisSuffix="k"
                 yAxisInterval={1} // optional, defaults to 1
                 chartConfig={{
-                    backgroundColor: "#e26a00",
+                    backgroundColor: "#18e9c8",
                     backgroundGradientFrom: "#FFDFD3",
                     backgroundGradientTo: "#FFDFD3",
                     decimalPlaces: 2, // optional, defaults to 2dp
@@ -231,7 +231,7 @@ const Monthly = () => {
                     propsForDots: {
                         r: "6",
                         strokeWidth: "2",
-                        stroke: "#ffa726"
+                        stroke: "#61efd9"
                     }
                 }}
                 bezier
@@ -373,7 +373,7 @@ const ReportScreen = ({ navigation }) => {
                                 borderBottomLeftRadius: 5,
                                 borderTopLeftRadius: 5,
                                 borderBottomLeftRadius: 5,
-                                backgroundColor: isSelectedDay ? 'lightblue' : '#eee'
+                                backgroundColor: isSelectedDay ? '#95f5e5' : '#eee'
                             }}
                         >
                             <Text
@@ -404,7 +404,7 @@ const ReportScreen = ({ navigation }) => {
                                 borderBottomRightRadius: 5,
                                 borderTopRightRadius: 5,
                                 borderBottomRightRadius: 5,
-                                backgroundColor: isSelectedWeek ? 'lightblue' : '#eee'
+                                backgroundColor: isSelectedWeek ? '#95f5e5' : '#eee'
                             }}
                         >
                             <Text
@@ -452,12 +452,12 @@ const ReportScreen = ({ navigation }) => {
 
                 <ScrollView
                     style={{
-                        backgroundColor: '#B5985A',
+                        backgroundColor: '#84f3e0',
                         //margin: 5,
                         borderRadius: 7,
                         //flexDirection: 'row'
                         borderWidth: 2,
-                        elevation: 0,
+                        elevation: 5,
                         marginTop: 15
                     }}
                     horizontal={true}
@@ -468,7 +468,7 @@ const ReportScreen = ({ navigation }) => {
                             style={{
                                 marginHorizontal: 7,
                                 marginVertical: 7,
-                                elevation: 1
+                                elevation: 2
                             }}
                         >
                             <TouchableOpacity
@@ -476,12 +476,12 @@ const ReportScreen = ({ navigation }) => {
                                 onPress={() => checkSwitch(chk.label)}
                             >
                                 <View style={{
-                                    backgroundColor: '#FFF0F3',
+                                    backgroundColor: '#ddfcf7',
                                     alignItems: 'center',
                                     borderRadius: 10,
                                     padding: 7,
                                     flexDirection: 'row',
-                                    elevation: 2
+                                    elevation: 1
                                 }}>
                                     <Text style={{ fontSize: 20, color: 'black' }}>{chk.name}</Text>
                                 </View>
@@ -508,7 +508,7 @@ const ReportScreen = ({ navigation }) => {
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                     padding: 5,
-                                    borderRadius: 7
+                                    borderRadius: 7,
                                 }}
                             >
                                 <Text
@@ -559,13 +559,13 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#FEC8D8',
+        backgroundColor: '#15d8ba',
         borderRadius: 7,
         margin: 10,
         padding: 15
     },
     btnColor: {
-        backgroundColor: '#a6e4d0'
+        backgroundColor: '#a7f7e9'
     }
 
 });

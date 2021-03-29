@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { windowHeight, windowWidth } from '../utils/Dimensions';
+import Colors from '../constants/Colors'
 
 const GeneralUserScreen = ({ navigation }) => {
   return (
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
     marginTop: 60,
     width: '100%',
     height: windowHeight / 15,
-    backgroundColor: '#a6e4d0',
+    backgroundColor: Colors.primary,
     padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     width: '100%',
     height: windowHeight / 15,
-    backgroundColor: '#a6e4d0',
+    backgroundColor: Colors.primary,
     padding: 10,
     alignItems: 'center',
     justifyContent: 'center',

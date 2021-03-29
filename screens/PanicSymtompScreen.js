@@ -10,6 +10,8 @@ import {
     LayoutAnimation
 } from 'react-native'
 import Icons from 'react-native-vector-icons/dist/Entypo'
+import Colors from '../constants/Colors'
+
 
 const Data = [
     {
@@ -199,7 +201,7 @@ const styles = StyleSheet.create({
         fontSize: 22
     },
     item: {
-        backgroundColor: '#BEE2BD',
+        backgroundColor: Colors.primary,
         padding: 20,
         borderRadius: 7.2,
         margin: 10
@@ -226,7 +228,7 @@ const styles = StyleSheet.create({
     },
     button: {
         alignItems: 'center',
-        backgroundColor: '#a6e4d0',
+        backgroundColor: '#15d8ba',
         padding: 10,
         width: 100,
         margin: 10,
